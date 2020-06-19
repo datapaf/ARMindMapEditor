@@ -11,6 +11,7 @@ public class MindMap : MonoBehaviour
     // sizeMultiplier is the scalar that determines the size of all the objects
     public float sizeMultiplier = 1;
 
+    // the variable determines the preview mode
     public bool isPreview = false;
 
     public DemonstrationMode mode;

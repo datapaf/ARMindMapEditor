@@ -7,6 +7,8 @@ public class Spawner : MonoBehaviour
     // mode determining whether the spawner have to open a map or have to create a new one
     public bool isLoadMode = false;
 
+    public GameObject FTButton;
+    public GameObject CalloutButton;
 
     void Start()
     {        
@@ -20,7 +22,10 @@ public class Spawner : MonoBehaviour
             if (!isLoadMode) {
                 GameObject newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/MindMap", typeof(GameObject)));
                 newMindMap.transform.position = gameObject.transform.position;
+                newMindMap.transform.rotation = gameObject.transform.rotation;
                 newMindMap.SetActive(true);
+                FTButton.SetActive(true);
+                CalloutButton.SetActive(true);
                 Destroy(gameObject);
             }
         }
