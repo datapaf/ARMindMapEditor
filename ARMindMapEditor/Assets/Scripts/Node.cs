@@ -14,6 +14,9 @@ public class Node : MonoBehaviour
     public Color color;
     public Shape shape;
 
+    public bool isDragged = false;
+    public GameObject nextNode = null;
+
     // the model of the node
     private GameObject model;
     // the caption containing the text and the background
@@ -68,10 +71,6 @@ public class Node : MonoBehaviour
 
     void Update()
     {
-    }
-
-    public void CreateCallout()
-    {
-
+  
     }
 }

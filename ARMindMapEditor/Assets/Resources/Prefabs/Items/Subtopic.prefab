@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3206951699226419079}
   m_Layer: 0
   m_Name: Subtopic
-  m_TagString: Untagged
+  m_TagString: Subtopic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
