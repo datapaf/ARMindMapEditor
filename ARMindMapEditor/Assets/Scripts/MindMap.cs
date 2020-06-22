@@ -18,6 +18,7 @@ public class MindMap : MonoBehaviour
 
     void Start()
     {
+
     }
 
     void Update()

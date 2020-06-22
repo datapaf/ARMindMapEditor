@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
 
     public GameObject FTButton;
     public GameObject CalloutButton;
+    public GameObject CreationManager;
 
     void Start()
     {        
@@ -26,6 +27,7 @@ public class Spawner : MonoBehaviour
                 newMindMap.SetActive(true);
                 FTButton.SetActive(true);
                 CalloutButton.SetActive(true);
+                CreationManager.SetActive(true);
                 Destroy(gameObject);
             }
         }

@@ -14,8 +14,8 @@ public class Node : MonoBehaviour
     public Color color;
     public Shape shape;
 
-    public bool isDragged = false;
-    public GameObject nextNode = null;
+    //public bool isDragged = false;
+    public GameObject predNode = null;
 
     // the model of the node
     private GameObject model;
@@ -63,7 +63,7 @@ public class Node : MonoBehaviour
         model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);
 
         // moving the model upward to place it on the model
-        caption.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y + 0.1f, 0);
+        caption.transform.position += new Vector3(0, 1.2f * model.transform.GetChild(0).localScale.y, 0);
 
         // assigning the text to the caption
         captionText.text = text;
