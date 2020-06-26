@@ -61,6 +61,20 @@ public class CreationManager : MonoBehaviour
                     // set up the predecessor node of the new node
                     newNode.GetComponent<Node>().predNode = hitNode;
 
+                    // set up the level of the node
+                    newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
+
+
+                    // set up the size of the new node
+                    newNode.GetComponent<Node>().maxSize = hitNode.GetComponent<Node>().size;
+                    newNode.GetComponent<Node>().minSize = hitNode.GetComponent<Node>().size * 0.5f;
+                    newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
+                    if (newNode.GetComponent<Node>().level < 4)
+                    {
+                        newNode.GetComponent<Node>().size *= 0.5f;
+                        newNode.GetComponent<Node>().minSize = newNode.GetComponent<Node>().maxSize * 0.25f;
+                    }
+
                     // instantiation of the new relationship connecting the nre node and the predecessor
                     newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
                     lineRenderer = newRelationship.GetComponent<LineRenderer>();
@@ -83,6 +97,19 @@ public class CreationManager : MonoBehaviour
 
                     // set up the predecessor node of the new node
                     newNode.GetComponent<Node>().predNode = hitNode;
+
+                    // set up the level of the node
+                    newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
+
+                    // set up the size of the new node
+                    newNode.GetComponent<Node>().maxSize = hitNode.GetComponent<Node>().size;
+                    newNode.GetComponent<Node>().minSize = hitNode.GetComponent<Node>().size * 0.5f;
+                    newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
+                    if (newNode.GetComponent<Node>().level < 4)
+                    {
+                        newNode.GetComponent<Node>().size *= 0.5f;
+                        newNode.GetComponent<Node>().minSize = newNode.GetComponent<Node>().maxSize * 0.25f;
+                    }
 
                     // instantiation of the new relationship connecting the nre node and the predecessor
                     newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));

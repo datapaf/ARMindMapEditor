@@ -10,10 +10,7 @@ public class SelectionManager : MonoBehaviour
     public Color relationshipSelectionColor;
     private Color colorBeforeRelationshipSelection;
 
-    public GameObject CTActionsMenu;
-    public GameObject MTActionsMenu;
-    public GameObject SubtopicActionsMenu;
-    public GameObject RelationshipActionsMenu;
+    public GameObject actionsMenu;
 
     private GameObject hitObject = null;
     private GameObject hitNode = null;
@@ -69,13 +66,14 @@ public class SelectionManager : MonoBehaviour
                     {
                         isItemChosen = true;
 
-                        selectedObject = hitNode;
+                        GameObject.Find("Managers").transform.Find("Creation Manager").gameObject.SetActive(false);
 
-                        Debug.Log(selectedObject.tag + " selected");
+                        selectedObject = hitNode;
 
                         Highlight(selectedObject);
 
-                        ActivateActionsMenu(selectedObject);
+                        actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject); 
+                        actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
 
                         hitNode = null;
                     }
@@ -85,11 +83,10 @@ public class SelectionManager : MonoBehaviour
 
                         selectedObject = hitRelationship;
 
-                        Debug.Log(selectedObject.tag + " selected");
-
                         Highlight(selectedObject);
 
-                        ActivateActionsMenu(selectedObject);
+                        actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject);
+                        actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
 
                         hitRelationship = null;
                     }
@@ -98,15 +95,15 @@ public class SelectionManager : MonoBehaviour
             // if something is selected
             else
             {
-                if (startTouchPosition == Input.mousePosition && hitNode != selectedObject)
+                if (startTouchPosition == Input.mousePosition && hitNode == selectedObject)
                 {
                     isItemChosen = false;
 
-                    Debug.Log(selectedObject.tag + " deselected");
+                    GameObject.Find("Managers").transform.Find("Creation Manager").gameObject.SetActive(false);
 
                     DeHighlight(selectedObject);
 
-                    DeActivateActionsMenu(selectedObject);
+                    actionsMenu.GetComponent<ActionsMenu>().HideMenu();
 
                     selectedObject = null;
 
@@ -145,48 +142,6 @@ public class SelectionManager : MonoBehaviour
         if (go.tag == "Relationship")
             return true;
         return false;
-    }
-
-    void ActivateActionsMenu(GameObject go)
-    {
-        switch (go.tag)
-        {
-            case "CentralTopic":
-                CTActionsMenu.SetActive(true);
-                break;
-            case "MainTopic":
-                MTActionsMenu.SetActive(true);
-                break;
-            case "Subtopic":
-                SubtopicActionsMenu.SetActive(true);
-                break;
-            case "Relationship":
-                RelationshipActionsMenu.SetActive(true);
-                break;
-            default:
-                break;
-        }
-    }
-
-    void DeActivateActionsMenu(GameObject go)
-    {
-        switch (go.tag)
-        {
-            case "CentralTopic":
-                CTActionsMenu.SetActive(false);
-                break;
-            case "MainTopic":
-                MTActionsMenu.SetActive(false);
-                break;
-            case "Subtopic":
-                SubtopicActionsMenu.SetActive(false);
-                break;
-            case "Relationship":
-                RelationshipActionsMenu.SetActive(false);
-                break;
-            default:
-                break;
-        }
     }
 
     void Highlight(GameObject go)

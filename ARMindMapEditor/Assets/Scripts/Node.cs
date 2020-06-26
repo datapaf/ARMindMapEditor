@@ -9,10 +9,19 @@ public class Node : MonoBehaviour
     public enum NodeType { CentralTopic, MainTopic, Subtopic, FloatingTopic };
 
     public NodeType nodeType;
+
     public string text;
+    
     public float size;
+    private float prevSize;
+    public float minSize;
+    public float maxSize;
+
     public Color color;
+    
     public Shape shape;
+
+    public int level;
 
     //public bool isDragged = false;
     public GameObject predNode = null;
@@ -67,10 +76,26 @@ public class Node : MonoBehaviour
 
         // assigning the text to the caption
         captionText.text = text;
+
+        // if the node is a central topic then set up the special parameters
+        if (gameObject.tag == "CentralTopic")
+        {
+            minSize = size * 0.5f;
+            maxSize = gameObject.transform.parent.GetComponent<MindMap>().sizeMultiplier;
+            level = 0;
+        }
+
+        // the size is not changing at the start
+        prevSize = size;
     }
 
     void Update()
     {
-  
+        // applying changing of the size if it happens
+        if ( prevSize != size ) 
+        {
+            gameObject.transform.localScale = Vector3.one * size;
+            prevSize = size;
+        }
     }
 }
