@@ -37,27 +37,8 @@ public class CreationManager : MonoBehaviour
             // remember the position of the first touch 
             startTouchPosition = Input.mousePosition;
 
-            // create a ray that goes from the camera  
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // cast the ray 
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                // getting the information
-                hitObject = hit.transform.gameObject;
-                if (hitObject.transform.parent.parent != null)
-                {
-                    hitNode = hitObject.transform.parent.parent.gameObject;
-                }
-
-                // if the hitObject has a grandparent (we can determine on which node we actually tapped)
-                if (hitNode != null)
-                {
-                    // remember on which node we tapped
-                    tappedNodeTag = hitNode.tag;
-                }
-            }
+            // obtain the tag if we actually tapped on a node
+            GetTappedNodeTag();
         }
         // actions on dragging
         else if (Input.GetMouseButton(0) && startTouchPosition != Input.mousePosition)
@@ -84,6 +65,7 @@ public class CreationManager : MonoBehaviour
                     newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
                     lineRenderer = newRelationship.GetComponent<LineRenderer>();
                     lineRenderer.SetPosition(1, hitObject.transform.position);
+
                     newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
 
                     // getting the distance from the camera to the node 
@@ -137,8 +119,10 @@ public class CreationManager : MonoBehaviour
                     {
                         // if the colliders intersect then destroy newNode
                         Destroy(newNode);
+                        Destroy(newRelationship);
                     }
                 }
+
                 // clear the tag of the tapped node
                 tappedNodeTag = null;
 
@@ -163,5 +147,29 @@ public class CreationManager : MonoBehaviour
 
         // returning a worldspace point at the provided distance z from the camera plane
         return Camera.main.ScreenToWorldPoint(mousePoint);
+    }
+
+    void GetTappedNodeTag()
+    {
+        // create a ray that goes from the camera  
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // cast the ray 
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            // getting the information
+            hitObject = hit.transform.gameObject;
+
+            // checking if we actually tapped on a node
+            if (hitObject.transform.parent.parent != null && hitObject.transform.parent.parent.tag != "Untagged")
+            {
+                // save the node that was tapped
+                hitNode = hitObject.transform.parent.parent.gameObject;
+
+                // remember on which node we tapped
+                tappedNodeTag = hitNode.tag;
+            }
+        }
     }
 }

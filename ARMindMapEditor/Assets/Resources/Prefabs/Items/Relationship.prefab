@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4228603828818557904}
   - component: {fileID: 4228603828818557911}
+  - component: {fileID: 6153004529158490187}
   m_Layer: 0
   m_Name: Relationship
-  m_TagString: Untagged
+  m_TagString: Relationship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,3 +129,17 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 1
+--- !u!136 &6153004529158490187
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228603828818557910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.05
+  m_Height: 0.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
