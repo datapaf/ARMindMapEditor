@@ -72,7 +72,7 @@ public class CreationManager : MonoBehaviour
                 // getting the distance from the camera to the node 
                 ZCoord = Camera.main.WorldToScreenPoint(newNode.transform.position).z;
             }
-            else if (tappedNodeTag == "MainTopic" || tappedNodeTag == "Subtopic")
+            else if (tappedNodeTag == "MainTopic" || tappedNodeTag == "Subtopic" || tappedNodeTag == "FloatingTopic")
             {
                 // here we start the creation of the new node
                 isCreationGoing = true;

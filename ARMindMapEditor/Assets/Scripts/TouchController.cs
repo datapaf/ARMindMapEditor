@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class TouchController : MonoBehaviour
 {
+    int prevState = -1;
+
     private float startTime;
     public float holdingTime = 0.5f;
 
@@ -23,9 +25,19 @@ public class TouchController : MonoBehaviour
 
     void Update()
     {
+        if (prevState != state)
+        {
+            Debug.Log(state);
+            prevState = state;
+        }
+
         if (state == 0)
         {
-            if (IsTapped() && IsPointedToItem())
+            if (IsTapped() && IsPointedToRelationship())
+            {
+                state = 10;
+            }
+            else if (IsTapped() && IsPointedToNode())
             {
                 startTime = Time.time;
                 state = 1;
@@ -106,6 +118,16 @@ public class TouchController : MonoBehaviour
             movingManager.EndMoving();
             state = 0;
         }
+        else if (state == 10)
+        {
+            selectionManager.PrepareForSelection();
+
+            if (IsReleased())
+            {
+                selectionManager.Select();
+                state = 3;
+            }
+        }
         else
         {
             state = 0;
@@ -122,11 +144,18 @@ public class TouchController : MonoBehaviour
         return IsTapped() && GetPointedObject().tag != "Axis";
     }
 
-    public bool IsPointedToItem()
+    public bool IsPointedToNode()
     {
         GameObject pointedObject = GetPointedObject();
 
-        return isMindMapItem(GetGrandparent(pointedObject));
+        return isNode(pointedObject);
+    }
+
+    public bool IsPointedToRelationship()
+    {
+        GameObject pointedObject = GetPointedObject();
+
+        return isRelationship(pointedObject);
     }
 
     public bool IsMoved()
@@ -166,11 +195,25 @@ public class TouchController : MonoBehaviour
 
     public GameObject GetGrandparent(GameObject go)
     {
+        if (go.transform.parent == null)
+            return null;
+        if (go.transform.parent.parent == null)
+            return null;
+
         return go.transform.parent.parent.gameObject;
     }
 
-    bool isMindMapItem(GameObject go)
+    public GameObject GetParent(GameObject go)
     {
+        if (go.transform.parent == null)
+            return null;
+
+        return go.transform.parent.gameObject;
+    }
+
+    bool isNode(GameObject go)
+    {
+        go = GetGrandparent(go);
         if (go == null)
             return false;
         if (go.tag == "CentralTopic")
@@ -179,9 +222,21 @@ public class TouchController : MonoBehaviour
             return true;
         if (go.tag == "Subtopic")
             return true;
-        if (go.tag == "Relationship")
+        if (go.tag == "FloatingTopic")
+            return true;
+        if (go.tag == "Callout")
             return true;
 
+        return false;
+    }
+
+    bool isRelationship(GameObject go)
+    {
+        go = GetParent(go);
+        if (go == null)
+            return false;
+        if (go.tag == "Relationship")
+            return true;
         return false;
     }
 }

@@ -108,17 +108,6 @@ public class MovingManager : MonoBehaviour
             return "y";
     }
 
-    bool isAxis(GameObject go)
-    {
-        if (go.name == "X")
-            return true;
-        if (go.name == "Y")
-            return true;
-        if (go.name == "Z")
-            return true;
-        return false;
-    }
-
     public GameObject GetPointedObject()
     {
         GameObject hitObject = null;
@@ -137,20 +126,6 @@ public class MovingManager : MonoBehaviour
     public GameObject GetGrandparent(GameObject go)
     {
         return go.transform.parent.parent.gameObject;
-    }
-
-    bool isNode(GameObject go)
-    {
-        if (go == null)
-            return false;
-        if (go.tag == "CentralTopic")
-            return true;
-        if (go.tag == "MainTopic")
-            return true;
-        if (go.tag == "Subtopic")
-            return true;
-
-        return false;
     }
 }
 

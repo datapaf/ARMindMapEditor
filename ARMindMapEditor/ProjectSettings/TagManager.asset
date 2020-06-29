@@ -9,6 +9,8 @@ TagManager:
   - Subtopic
   - Relationship
   - Axis
+  - FloatingTopic
+  - Callout
   layers:
   - Default
   - TransparentFX

@@ -25,9 +25,9 @@ public class SelectionManager : MonoBehaviour
 
         if (hitObject != null)
         {
-            if (isRelationship(hitObject))
+            if (isRelationship(hitObject.transform.parent.gameObject))
             {
-                hitRelationship = hitObject;
+                hitRelationship = hitObject.transform.parent.gameObject;
             }
             else
             {
@@ -46,18 +46,7 @@ public class SelectionManager : MonoBehaviour
 
     public void Select()
     {
-        if (isNode(hitNode))
-        {
-            selectedObject = hitNode;
-
-            Highlight(selectedObject);
-
-            actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject);
-            actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
-
-            hitNode = null;
-        }
-        else if (isRelationship(hitRelationship))
+        if (isRelationship(hitRelationship))
         {
             selectedObject = hitRelationship;
 
@@ -67,6 +56,17 @@ public class SelectionManager : MonoBehaviour
             actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
 
             hitRelationship = null;
+        }
+        else if (isNode(hitNode))
+        {
+            selectedObject = hitNode;
+
+            Highlight(selectedObject);
+
+            actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject);
+            actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
+
+            hitNode = null;
         }
     }
 
@@ -90,6 +90,10 @@ public class SelectionManager : MonoBehaviour
         if (go.tag == "MainTopic")
             return true;
         if (go.tag == "Subtopic")
+            return true;
+        if (go.tag == "FloatingTopic")
+            return true;
+        if (go.tag == "Callout")
             return true;
 
         return false;

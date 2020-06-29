@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3677060686013910997}
   m_Layer: 0
   m_Name: FT
-  m_TagString: Untagged
+  m_TagString: FloatingTopic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,8 +47,12 @@ MonoBehaviour:
   nodeType: 3
   text: Floating Topic
   size: 1
+  minSize: 0
+  maxSize: 0
   color: {r: 0, g: 1, b: 0, a: 1}
   shape: 1
+  level: 0
+  predNode: {fileID: 0}
 --- !u!1 &7838549469676275651
 GameObject:
   m_ObjectHideFlags: 0

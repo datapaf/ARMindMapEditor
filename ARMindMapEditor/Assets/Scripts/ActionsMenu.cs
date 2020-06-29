@@ -11,6 +11,9 @@ public class ActionsMenu : MonoBehaviour
     public GameObject MTActionsMenu;
     public GameObject SubtopicActionsMenu;
     public GameObject RelationshipActionsMenu;
+    public GameObject FTActionsMenu;
+    public GameObject CalloutActionsMenu;
+
 
     private GameObject menu;
     private Slider slider;
@@ -47,12 +50,15 @@ public class ActionsMenu : MonoBehaviour
     {
         menu = GetMenu();
 
-        isSliderValueSetup = true;
+        if (menu.transform.Find("Slider"))
+        {
+            isSliderValueSetup = true;
 
-        slider = menu.transform.Find("Slider").GetComponent<Slider>();
-        slider.minValue = node.GetComponent<Node>().minSize;
-        slider.maxValue = node.GetComponent<Node>().maxSize;
-        slider.value = node.GetComponent<Node>().size;
+            slider = menu.transform.Find("Slider").GetComponent<Slider>();
+            slider.minValue = node.GetComponent<Node>().minSize;
+            slider.maxValue = node.GetComponent<Node>().maxSize;
+            slider.value = node.GetComponent<Node>().size;
+        }
         
         menu.SetActive(true);
     }
@@ -72,7 +78,11 @@ public class ActionsMenu : MonoBehaviour
             return SubtopicActionsMenu;
         else if (node.tag == "Relationship")
             return RelationshipActionsMenu;
-        
+        else if (node.tag == "FloatingTopic")
+            return FTActionsMenu;
+        else if (node.tag == "Callout")
+            return CalloutActionsMenu;
+
         return null;
     }
 
@@ -85,6 +95,11 @@ public class ActionsMenu : MonoBehaviour
         FT.transform.SetParent(mindMap.transform, false);
         FT.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
         FT.transform.rotation = CT.transform.rotation;
+
+        FT.GetComponent<Node>().level = 2;
+        FT.GetComponent<Node>().maxSize = CT.GetComponent<Node>().size;
+        FT.GetComponent<Node>().minSize = CT.GetComponent<Node>().size * 0.5f;
+        FT.GetComponent<Node>().size = CT.GetComponent<Node>().size;
     }
 
     public void CreateCallout()
@@ -92,10 +107,10 @@ public class ActionsMenu : MonoBehaviour
         GameObject mindMap = GameObject.Find("MindMap(Clone)").gameObject;
         GameObject CT = mindMap.transform.Find("CT").gameObject;
         GameObject CTModel = CT.transform.Find("Sphere(Clone)").gameObject;
-        GameObject FT = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
-        FT.transform.SetParent(mindMap.transform, false);
-        FT.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
-        FT.transform.rotation = CT.transform.rotation;
+        GameObject Callout = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
+        Callout.transform.SetParent(mindMap.transform, false);
+        Callout.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
+        Callout.transform.rotation = CT.transform.rotation;
     }
 
     public void StartChangingText()
