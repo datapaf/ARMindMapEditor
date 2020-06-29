@@ -5,129 +5,104 @@ using UnityEngine;
 
 public class MovingManager : MonoBehaviour
 {
-    public float fixedHoldTime = 0.5f;
     public float movingMultiplier = 25f;
-
-    private float touchStartTime;
 
     private GameObject hitObject = null;
     private GameObject hitNode = null;
 
     private GameObject transformAxes;
 
-    private bool isInMovingMode = false;
+    private Vector3 startTouchPosition;
 
-    private UnityEngine.Vector3 startTouchPosition;
-
-    void Update()
+    public void ShowAxesForMoving()
     {
-        // actions on the first touch
-        if (Input.GetMouseButtonDown(0))
+        // obtain the object after raycasting
+        hitObject = GetPointedObject();
+
+        if (hitObject != null)
         {
-            // remember the position of the first touch 
-            startTouchPosition = Input.mousePosition;
-
-            // obtain the object after raycasting
-            GetHitObject();
-
-            if (hitObject != null)
+            // if we actually tapped on a node then instantiate hitNode, leave hitNode null otherwise 
+            if (GetGrandparent(hitObject) != null)
             {
-                // if we hit the shape of a node then the node gameobject should be the shape's grandparent 
-                var hitObjectGrandparent = hitObject.transform.parent.parent;
+                // save the node that was tapped
+                hitNode = GetGrandparent(hitObject);
 
-                // if we actually tapped on a node then instantiate hitNode, leave hitNode null otherwise 
-                if (hitObjectGrandparent != null && isNode(hitObjectGrandparent.gameObject))
-                {
-                    // save the node that was tapped
-                    hitNode = hitObject.transform.parent.parent.gameObject;
+                transformAxes = Instantiate((GameObject)Resources.Load("Prefabs/Items/TransformAxes", typeof(GameObject)));
 
-                    touchStartTime = Time.time;
-                }
+                transformAxes.transform.position = hitNode.transform.GetChild(1).Find("AxesPlace").transform.position;
+                transformAxes.transform.rotation = hitNode.transform.rotation;
+                transformAxes.transform.Rotate(new Vector3(0, 180, 0));
+
+
+                transformAxes.transform.SetParent(hitNode.transform, true);
             }
-        }
-        // actions on holding
-        else if (Input.GetMouseButton(0))
-        {
-
-            float deltaTime = Time.time - touchStartTime;
-
-            if (isInMovingMode == false)
-            {
-                if (startTouchPosition == Input.mousePosition && deltaTime >= fixedHoldTime)
-                {
-                    if (isNode(hitNode))
-                    {
-                        isInMovingMode = true;
-
-                        transformAxes = Instantiate((GameObject)Resources.Load("Prefabs/Items/TransformAxes", typeof(GameObject)));
-
-                        transformAxes.transform.position = hitNode.transform.GetChild(1).Find("AxesPlace").transform.position;
-
-                        transformAxes.transform.SetParent(hitNode.transform, true);
-                    }
-                }
-            }
-            else 
-            {
-                if (isAxis(hitObject))
-                {
-                    string inputAxis =
-                        GetInputAxis(startTouchPosition, Camera.main.WorldToScreenPoint(transformAxes.transform.Find("Origin").position));
-
-                    switch (hitObject.name)
-                    {
-                        case "X":
-
-                            if (inputAxis == "x")
-                            {
-                                hitNode.transform.position +=  Vector3.right * Input.GetAxis("Mouse X") / movingMultiplier;
-                            }
-                            else if (inputAxis == "y")
-                            {
-                                hitNode.transform.position += Vector3.right * Input.GetAxis("Mouse Y") / movingMultiplier;
-                            }
-
-                            break;
-                        case "Y":
-
-                            if (inputAxis == "x")
-                            {
-                                hitNode.transform.position += Vector3.up * Input.GetAxis("Mouse X") / movingMultiplier;
-                            }
-                            else if (inputAxis == "y")
-                            {
-                                hitNode.transform.position += Vector3.up * Input.GetAxis("Mouse Y") / movingMultiplier;
-                            }
-
-                            break;
-                        case "Z":
-
-                            if (inputAxis == "x")
-                            {
-                                hitNode.transform.position += Vector3.forward * Input.GetAxis("Mouse X") / movingMultiplier;
-                            }
-                            else if (inputAxis == "y")
-                            {
-                                hitNode.transform.position += Vector3.forward * Input.GetAxis("Mouse Y") / movingMultiplier;
-                            }
-
-                            break;
-                    }
-
-                }
-            }
-        }
-        // actions on lifted finger
-        else if (Input.GetMouseButtonUp(0))
-        {
-            hitObject = null;
         }
     }
 
-    string GetInputAxis(Vector2 p, Vector2 o) 
+    public void PrepareForMoving()
+    {
+        startTouchPosition = Input.mousePosition;
+        hitObject = GetPointedObject();
+    }
+
+    public void Moving()
+    {
+        string inputAxis =
+            GetInputAxis(startTouchPosition, Camera.main.WorldToScreenPoint(transformAxes.transform.Find("Origin").position));
+
+        switch (hitObject.name)
+        {
+            case "X":
+
+                if (inputAxis == "x")
+                {
+                    hitNode.transform.position += hitNode.transform.right * Input.GetAxis("Mouse X") / Screen.currentResolution.width * movingMultiplier;
+                }
+                else if (inputAxis == "y")
+                {
+                    hitNode.transform.position += hitNode.transform.right * Input.GetAxis("Mouse Y") / Screen.currentResolution.height * movingMultiplier;
+                }
+
+                break;
+
+            case "Y":
+
+                if (inputAxis == "x")
+                {
+                    hitNode.transform.position += hitNode.transform.up * Input.GetAxis("Mouse X") / Screen.currentResolution.width * movingMultiplier;
+                }
+                else if (inputAxis == "y")
+                {
+                    hitNode.transform.position += hitNode.transform.up * Input.GetAxis("Mouse Y") / Screen.currentResolution.height * movingMultiplier;
+                }
+
+                break;
+
+            case "Z":
+
+                if (inputAxis == "x")
+                {
+                    hitNode.transform.position += hitNode.transform.forward * Input.GetAxis("Mouse X") / Screen.currentResolution.width * movingMultiplier;
+                }
+                else if (inputAxis == "y")
+                {
+                    hitNode.transform.position += hitNode.transform.forward * Input.GetAxis("Mouse Y") / Screen.currentResolution.height * movingMultiplier;
+                }
+
+                break;
+        }
+    }
+
+    public void EndMoving()
+    {
+        Destroy(transformAxes);
+        hitObject = null;
+    }
+
+    string GetInputAxis(Vector2 p, Vector2 o)
     {
         Vector2 v = p - o;
-        if ( Math.Abs(v.x) >= Math.Abs(v.y))
+        if (Math.Abs(v.x) >= Math.Abs(v.y))
             return "x";
         else
             return "y";
@@ -144,18 +119,24 @@ public class MovingManager : MonoBehaviour
         return false;
     }
 
-    void GetHitObject()
+    public GameObject GetPointedObject()
     {
-        // create a ray that goes from the camera  
+        GameObject hitObject = null;
+
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        // cast the ray 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            // getting the information
             hitObject = hit.transform.gameObject;
         }
+
+        return hitObject;
+    }
+
+    public GameObject GetGrandparent(GameObject go)
+    {
+        return go.transform.parent.parent.gameObject;
     }
 
     bool isNode(GameObject go)

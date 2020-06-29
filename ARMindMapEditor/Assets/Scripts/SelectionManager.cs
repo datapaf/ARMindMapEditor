@@ -18,107 +18,67 @@ public class SelectionManager : MonoBehaviour
 
     private GameObject selectedObject;
 
-    private bool isItemChosen = false;
-
-    private UnityEngine.Vector3 startTouchPosition;
-
-    void Update()
+    public void PrepareForSelection()
     {
-        // actions on the first touch
-        if (Input.GetMouseButtonDown(0))
+        // obtain the object after raycasting
+        GetHitObject();
+
+        if (hitObject != null)
         {
-            // remember the position of the first touch 
-            startTouchPosition = Input.mousePosition;
-
-            // obtain the object after raycasting
-            GetHitObject();
-
-            if (hitObject != null)
+            if (isRelationship(hitObject))
             {
-                if (isRelationship(hitObject))
-                {
-                    hitRelationship = hitObject;
-                }
-                else
-                {
-                    // if we hit the shape of a node then the node gameobject should be the shape's grandparent 
-                    var hitObjectGrandparent = hitObject.transform.parent.parent;
-
-                    // if we actually tapped on a node then instantiate hitNode, leave hitNode null otherwise 
-                    if (hitObjectGrandparent != null && isNode(hitObjectGrandparent.gameObject))
-                    {
-                        // save the node that was tapped
-                        hitNode = hitObject.transform.parent.parent.gameObject;
-                    }
-                }
+                hitRelationship = hitObject;
             }
-        }
-        // actions on lifted finger 
-        else if (Input.GetMouseButtonUp(0))
-        {
-            // if nothing is selected
-            if (isItemChosen == false)
-            {
-                // if the finger wasn't moved and we obtained the tag of the tapped node
-                if (startTouchPosition == Input.mousePosition)
-                {
-                    if (isNode(hitNode))
-                    {
-                        isItemChosen = true;
-
-                        GameObject.Find("Managers").transform.Find("Creation Manager").gameObject.SetActive(false);
-
-                        selectedObject = hitNode;
-
-                        Highlight(selectedObject);
-
-                        actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject); 
-                        actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
-
-                        hitNode = null;
-                    }
-                    else if (isRelationship(hitRelationship))
-                    {
-                        isItemChosen = true;
-
-                        selectedObject = hitRelationship;
-
-                        Highlight(selectedObject);
-
-                        actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject);
-                        actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
-
-                        hitRelationship = null;
-                    }
-                }
-            }
-            // if something is selected
             else
             {
-                if (startTouchPosition == Input.mousePosition && hitNode == selectedObject)
+                // if we hit the shape of a node then the node gameobject should be the shape's grandparent 
+                var hitObjectGrandparent = hitObject.transform.parent.parent;
+
+                // if we actually tapped on a node then instantiate hitNode, leave hitNode null otherwise 
+                if (hitObjectGrandparent != null && isNode(hitObjectGrandparent.gameObject))
                 {
-                    isItemChosen = false;
-
-                    GameObject.Find("Managers").transform.Find("Creation Manager").gameObject.SetActive(false);
-
-                    DeHighlight(selectedObject);
-
-                    actionsMenu.GetComponent<ActionsMenu>().HideMenu();
-
-                    selectedObject = null;
-
-                    hitNode = null;
+                    // save the node that was tapped
+                    hitNode = hitObject.transform.parent.parent.gameObject;
                 }
             }
         }
     }
 
-    bool isMindMapItem(GameObject go)
+    public void Select()
     {
-        if (isNode(go) || isRelationship(go))
-            return true;
+        if (isNode(hitNode))
+        {
+            selectedObject = hitNode;
 
-        return false;
+            Highlight(selectedObject);
+
+            actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject);
+            actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
+
+            hitNode = null;
+        }
+        else if (isRelationship(hitRelationship))
+        {
+            selectedObject = hitRelationship;
+
+            Highlight(selectedObject);
+
+            actionsMenu.GetComponent<ActionsMenu>().SetNode(selectedObject);
+            actionsMenu.GetComponent<ActionsMenu>().ShowMenu();
+
+            hitRelationship = null;
+        }
+    }
+
+    public void Deselect()
+    {
+        DeHighlight(selectedObject);
+
+        actionsMenu.GetComponent<ActionsMenu>().HideMenu();
+
+        selectedObject = null;
+
+        hitNode = null;
     }
 
     bool isNode(GameObject go)

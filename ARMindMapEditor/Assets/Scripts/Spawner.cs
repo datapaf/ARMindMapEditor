@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     // mode determining whether the spawner have to open a map or have to create a new one
     public bool isLoadMode = false;
 
-    public GameObject managers;
+    public GameObject touchController;
 
     void Start()
     {        
@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
                 newMindMap.transform.position = gameObject.transform.position;
                 newMindMap.transform.rotation = gameObject.transform.rotation;
                 newMindMap.SetActive(true);
-                managers.SetActive(true);
+                touchController.SetActive(true);
                 Destroy(gameObject);
             }
         }
