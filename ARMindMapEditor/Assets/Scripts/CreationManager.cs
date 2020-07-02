@@ -110,7 +110,7 @@ public class CreationManager : MonoBehaviour
         // if the creation is going then change position of the new node according to the finger
         else if (isCreationGoing)
         {
-            newNode.transform.position = GetMouseWorldPos();
+            newNode.transform.position = GetTouchWorldPos();
             newRelationship.GetComponent<Relationship>().object1 = hitObject.gameObject;
             newRelationship.GetComponent<Relationship>().object2 = newNode.transform.GetChild(1).gameObject;
         }
@@ -151,21 +151,21 @@ public class CreationManager : MonoBehaviour
     }
 
 
-    private UnityEngine.Vector3 GetMouseWorldPos()
+    private UnityEngine.Vector3 GetTouchWorldPos()
     {
         // xy coordinates
-        UnityEngine.Vector3 mousePoint = Input.mousePosition;
+        UnityEngine.Vector3 touchPoint = Input.GetTouch(0).position;
         // convertion to xyz coordinates
-        mousePoint.z = ZCoord;
+        touchPoint.z = ZCoord;
 
         // returning a worldspace point at the provided distance z from the camera plane
-        return Camera.main.ScreenToWorldPoint(mousePoint);
+        return Camera.main.ScreenToWorldPoint(touchPoint);
     }
 
     void GetTappedNodeTag()
     {
         // create a ray that goes from the camera  
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 
         // cast the ray 
         RaycastHit hit;

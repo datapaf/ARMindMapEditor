@@ -144,7 +144,7 @@ public class SelectionManager : MonoBehaviour
     void GetHitObject()
     {
         // create a ray that goes from the camera  
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 
         // cast the ray 
         RaycastHit hit;

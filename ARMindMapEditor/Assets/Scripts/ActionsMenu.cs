@@ -126,7 +126,7 @@ public class ActionsMenu : MonoBehaviour
 
     public void ChangeText()
     {
-        node.transform.Find("Caption").Find("Text").GetComponent<TextMesh>().text = inputField.GetComponent<InputField>().text;
+        node.GetComponent<Node>().text = inputField.GetComponent<InputField>().text;
     }
 
     public void EndChangingText()

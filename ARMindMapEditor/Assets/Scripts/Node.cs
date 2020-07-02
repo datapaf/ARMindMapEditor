@@ -28,17 +28,9 @@ public class Node : MonoBehaviour
 
     // the model of the node
     private GameObject model;
-    // the caption containing the text and the background
-    private GameObject caption;
-    // the text of the caption
-    private TextMesh captionText;
 
     void Start()
     {
-        // instantiation
-        caption = transform.GetChild(0).gameObject;
-        captionText = caption.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
-
         // loading the model depending on the chosen shape
         switch (shape)
         {
@@ -71,12 +63,6 @@ public class Node : MonoBehaviour
         // moving the model upward to place it on the surface
         model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);
 
-        // moving the model upward to place it on the model
-        caption.transform.position += new Vector3(0, 1.2f * model.transform.GetChild(0).localScale.y, 0);
-
-        // assigning the text to the caption
-        captionText.text = text;
-
         // if the node is a central topic then set up the special parameters
         if (gameObject.tag == "CentralTopic")
         {
@@ -87,6 +73,7 @@ public class Node : MonoBehaviour
 
         // the size is not changing at the start
         prevSize = size;
+
     }
 
     void Update()

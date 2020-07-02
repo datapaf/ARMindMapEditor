@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.XR.ARFoundation;
 
 public class TouchController : MonoBehaviour
 {
+
     int prevState = -1;
 
     private float startTime;
@@ -40,12 +42,12 @@ public class TouchController : MonoBehaviour
             else if (IsTapped() && IsPointedToNode())
             {
                 startTime = Time.time;
+                creationManager.PrepareForCreation();
                 state = 1;
             }
         }
         else if (state == 1)
         {
-            creationManager.PrepareForCreation();
             selectionManager.PrepareForSelection();
 
             if (IsMoved())
@@ -136,7 +138,7 @@ public class TouchController : MonoBehaviour
 
     public bool IsTappedForExitSelection()
     {
-        return IsTapped() && !EventSystem.current.IsPointerOverGameObject();
+        return IsTapped() && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
 
     public bool IsTappedForExitMoving()
@@ -160,29 +162,29 @@ public class TouchController : MonoBehaviour
 
     public bool IsMoved()
     {
-        return (Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0);
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved;
     }
 
     public bool IsHeld(float sec)
     {
-        return !IsMoved() && Input.GetMouseButton(0) && (Time.time - startTime) > sec;
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Stationary && (Time.time - startTime) > sec;
     }
 
     public bool IsTapped()
     {
-        return Input.GetMouseButtonDown(0);
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began;
     }
 
     public bool IsReleased()
     {
-        return Input.GetMouseButtonUp(0);
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended;
     }
 
     public GameObject GetPointedObject()
     {
         GameObject hitObject = null;
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))

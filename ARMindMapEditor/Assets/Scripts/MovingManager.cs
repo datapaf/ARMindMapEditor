@@ -41,7 +41,7 @@ public class MovingManager : MonoBehaviour
 
     public void PrepareForMoving()
     {
-        startTouchPosition = Input.mousePosition;
+        startTouchPosition = Input.GetTouch(0).position;
         hitObject = GetPointedObject();
     }
 
@@ -56,11 +56,11 @@ public class MovingManager : MonoBehaviour
 
                 if (inputAxis == "x")
                 {
-                    hitNode.transform.position += hitNode.transform.right * Input.GetAxis("Mouse X") / Screen.currentResolution.width * movingMultiplier;
+                    hitNode.transform.position += hitNode.transform.right * Input.GetTouch(0).deltaPosition.x / Screen.currentResolution.width; // * movingMultiplier;
                 }
                 else if (inputAxis == "y")
                 {
-                    hitNode.transform.position += hitNode.transform.right * Input.GetAxis("Mouse Y") / Screen.currentResolution.height * movingMultiplier;
+                    hitNode.transform.position += hitNode.transform.right * Input.GetTouch(0).deltaPosition.y / Screen.currentResolution.height;// * movingMultiplier;
                 }
 
                 break;
@@ -69,11 +69,11 @@ public class MovingManager : MonoBehaviour
 
                 if (inputAxis == "x")
                 {
-                    hitNode.transform.position += hitNode.transform.up * Input.GetAxis("Mouse X") / Screen.currentResolution.width * movingMultiplier;
+                    hitNode.transform.position += hitNode.transform.up * Input.GetTouch(0).deltaPosition.x / Screen.currentResolution.width;// * movingMultiplier;
                 }
                 else if (inputAxis == "y")
                 {
-                    hitNode.transform.position += hitNode.transform.up * Input.GetAxis("Mouse Y") / Screen.currentResolution.height * movingMultiplier;
+                    hitNode.transform.position += hitNode.transform.up * Input.GetTouch(0).deltaPosition.y / Screen.currentResolution.height;// * movingMultiplier;
                 }
 
                 break;
@@ -82,11 +82,11 @@ public class MovingManager : MonoBehaviour
 
                 if (inputAxis == "x")
                 {
-                    hitNode.transform.position += hitNode.transform.forward * Input.GetAxis("Mouse X") / Screen.currentResolution.width * movingMultiplier;
+                    hitNode.transform.position += hitNode.transform.forward * Input.GetTouch(0).deltaPosition.x / Screen.currentResolution.width;// * movingMultiplier;
                 }
                 else if (inputAxis == "y")
                 {
-                    hitNode.transform.position += hitNode.transform.forward * Input.GetAxis("Mouse Y") / Screen.currentResolution.height * movingMultiplier;
+                    hitNode.transform.position += hitNode.transform.forward * Input.GetTouch(0).deltaPosition.y / Screen.currentResolution.height;// * movingMultiplier;
                 }
 
                 break;
@@ -112,7 +112,7 @@ public class MovingManager : MonoBehaviour
     {
         GameObject hitObject = null;
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
