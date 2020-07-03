@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.XR.ARFoundation;
 
 public class TouchController : MonoBehaviour
 {
-
-    int prevState = -1;
-
     private float startTime;
     public float holdingTime = 0.5f;
 
-    int state = 0;
+    public GameObject editorMenu;
+    public GameObject tapToPlaceText;
+    public GameObject cursor;
+
+    int prevState = -2;
+    int state = -1;
 
     CreationManager creationManager;
     SelectionManager selectionManager;
@@ -33,7 +34,26 @@ public class TouchController : MonoBehaviour
             prevState = state;
         }
 
-        if (state == 0)
+        if (state == -1)
+        {
+            if (cursor.activeInHierarchy)
+            {
+                tapToPlaceText.SetActive(true);
+            }
+            else
+            {
+                tapToPlaceText.SetActive(false);
+            }
+            
+
+            if (IsTapped() && cursor.activeInHierarchy)
+            {
+                tapToPlaceText.SetActive(false);
+                editorMenu.SetActive(true);
+                state = 0;
+            }
+        }
+        else if (state == 0)
         {
             if (IsTapped() && IsPointedToRelationship())
             {
@@ -41,13 +61,14 @@ public class TouchController : MonoBehaviour
             }
             else if (IsTapped() && IsPointedToNode())
             {
-                startTime = Time.time;
+                startTime = Time.time; 
                 creationManager.PrepareForCreation();
                 state = 1;
             }
         }
         else if (state == 1)
         {
+
             selectionManager.PrepareForSelection();
 
             if (IsMoved())
@@ -172,7 +193,7 @@ public class TouchController : MonoBehaviour
 
     public bool IsTapped()
     {
-        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began;
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began || Input.GetMouseButtonDown(0);
     }
 
     public bool IsReleased()

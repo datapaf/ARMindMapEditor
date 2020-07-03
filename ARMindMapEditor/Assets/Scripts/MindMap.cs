@@ -6,7 +6,7 @@ public class MindMap : MonoBehaviour
 {
     public enum DemonstrationMode { Volume, Flat };
 
-    public new string name = "NewMindMap";
+    public string mapName;
 
     // sizeMultiplier is the scalar that determines the size of all the objects
     public float sizeMultiplier = 1;
