@@ -28,7 +28,15 @@ public class Caption : MonoBehaviour
             isSetupDone = true;
         }
 
-        text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Node>().text;
+        if (transform.parent.GetComponent<Node>())
+        {
+            text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Node>().text;
+        }
+        else 
+        {
+            text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Callout>().text;
+        }
+        
 
         background.transform.localScale = new Vector3(2, 1, 2) *
             Mathf.Min(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z);

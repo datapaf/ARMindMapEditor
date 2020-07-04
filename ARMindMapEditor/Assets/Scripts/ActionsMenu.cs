@@ -33,7 +33,14 @@ public class ActionsMenu : MonoBehaviour
     {
         if (isSliderValueSetup == false)
         {
-            node.GetComponent<Node>().size = slider.value;
+            if (node.GetComponent<Node>())
+            {
+                node.GetComponent<Node>().size = slider.value;
+            }
+            else 
+            {
+                node.GetComponent<Callout>().size = slider.value;
+            }
         }
         else
         {
@@ -55,9 +62,20 @@ public class ActionsMenu : MonoBehaviour
             isSliderValueSetup = true;
 
             slider = menu.transform.Find("Slider").GetComponent<Slider>();
-            slider.minValue = node.GetComponent<Node>().minSize;
-            slider.maxValue = node.GetComponent<Node>().maxSize;
-            slider.value = node.GetComponent<Node>().size;
+
+            if (node.GetComponent<Node>())
+            {
+                slider.minValue = node.GetComponent<Node>().minSize;
+                slider.maxValue = node.GetComponent<Node>().maxSize;
+                slider.value = node.GetComponent<Node>().size;
+            }
+            else 
+            {
+                slider.minValue = node.GetComponent<Callout>().minSize;
+                slider.maxValue = node.GetComponent<Callout>().maxSize;
+                slider.value = node.GetComponent<Callout>().size;
+            }
+            
         }
         
         menu.SetActive(true);
@@ -111,6 +129,11 @@ public class ActionsMenu : MonoBehaviour
         Callout.transform.SetParent(mindMap.transform, false);
         Callout.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
         Callout.transform.rotation = CT.transform.rotation;
+
+        Callout.GetComponent<Callout>().level = 2;
+        Callout.GetComponent<Callout>().maxSize = CT.GetComponent<Node>().size;
+        Callout.GetComponent<Callout>().minSize = CT.GetComponent<Node>().size * 0.5f;
+        Callout.GetComponent<Callout>().size = CT.GetComponent<Node>().size;
     }
 
     public void StartChangingText()
@@ -126,7 +149,14 @@ public class ActionsMenu : MonoBehaviour
 
     public void ChangeText()
     {
-        node.GetComponent<Node>().text = inputField.GetComponent<InputField>().text;
+        if (node.GetComponent<Node>())
+        {
+            node.GetComponent<Node>().text = inputField.GetComponent<InputField>().text;
+        }
+        else 
+        {
+            node.GetComponent<Callout>().text = inputField.GetComponent<InputField>().text;
+        }
     }
 
     public void EndChangingText()
