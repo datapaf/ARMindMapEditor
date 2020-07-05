@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum DemonstrationMode { Volume, Flat };
+
 public class MindMap : MonoBehaviour
 {
-    public enum DemonstrationMode { Volume, Flat };
-
+    
     public string mapName;
 
     // sizeMultiplier is the scalar that determines the size of all the objects

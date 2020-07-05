@@ -17,11 +17,7 @@ public class DeleteMapButton : MonoBehaviour
 
     public void DeleteMap()
     {
-        File.Delete("Assets/Resources/Maps/" + transform.parent.GetComponent<MapButton>().mapName + ".prefab");
-        
-        #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
-        #endif
+        File.Delete("Assets/Resources/Maps/" + transform.parent.GetComponent<MapButton>().mapName + ".json");
 
         Destroy(transform.parent.gameObject);
     }

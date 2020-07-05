@@ -20,15 +20,12 @@ public class Spawner : MonoBehaviour
 
             if (isLoadMode)
             {
-                GameObject newMindMap = Instantiate((GameObject)Resources.Load("Maps/" + mapName, typeof(GameObject)));
+                GameObject newMindMap = GameObject.Find("SaveController").GetComponent<SaveController>().LoadMap(mapName);
                 if (isPreview)
                 {
                     newMindMap.GetComponent<MindMap>().isPreview = true;
                     newMindMap.transform.SetParent(transform.parent);
                 }
-                newMindMap.transform.position = gameObject.transform.position;
-                newMindMap.transform.rotation = gameObject.transform.rotation;
-                newMindMap.SetActive(true);
                 Destroy(gameObject);
             }
             // if it needs to create a new map 
