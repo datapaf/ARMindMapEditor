@@ -6,6 +6,8 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject touchController;
     public GameObject placementTools;
+    public GameObject cursorSpawner;
+    public GameObject objectToPlaceSpawner;
 
     void Start()
     {   
@@ -14,7 +16,16 @@ public class MainMenu : MonoBehaviour
     void Update()
     {
     }
+    public void OpenMap(string mapName)
+    {
+        cursorSpawner.GetComponent<Spawner>().isLoadMode = true;
+        cursorSpawner.GetComponent<Spawner>().mapName = mapName;
 
+        objectToPlaceSpawner.GetComponent<Spawner>().isLoadMode = true;
+        objectToPlaceSpawner.GetComponent<Spawner>().mapName = mapName;
+
+        GameObject.Find("Main Menu").GetComponent<MainMenu>().MapCreation();
+    }
     public void MapCreation()
     {
         touchController.SetActive(true);

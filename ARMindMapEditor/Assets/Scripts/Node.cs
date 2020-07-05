@@ -6,9 +6,9 @@ public class Node : MonoBehaviour
 {
     // the list of possible shapes
     public enum Shape { Sphere, Parallelopipedon, Capsule };
-    public enum NodeType { CentralTopic, MainTopic, Subtopic, FloatingTopic };
+    //public enum NodeType { CentralTopic, MainTopic, Subtopic, FloatingTopic };
 
-    public NodeType nodeType;
+    //public NodeType nodeType;
 
     public string text;
     
@@ -24,13 +24,23 @@ public class Node : MonoBehaviour
     public int level;
 
     //public bool isDragged = false;
-    public GameObject predNode = null;
+    //public GameObject predNode = null;
 
     // the model of the node
     private GameObject model;
 
     void Start()
     {
+        // This code snippet fixes the bug with the map loading: 
+        // Unity saves the map with the nodes with no materials.
+        // When the map is loaded this script automatically creates a new shape for the node.
+        // Therefore, the loaded map contains nodes with two shapes. Here we delete the shape
+        // with no material.
+        if (transform.childCount > 1)
+        {
+            Destroy(transform.GetChild(1).gameObject);
+        }
+
         // loading the model depending on the chosen shape
         switch (shape)
         {
@@ -43,7 +53,7 @@ public class Node : MonoBehaviour
             case Shape.Capsule:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Capsule", typeof(GameObject)));
                 break;
-        }
+        }   
 
         // make instantiated model be child of the node object
         model.transform.SetParent(gameObject.transform, false);

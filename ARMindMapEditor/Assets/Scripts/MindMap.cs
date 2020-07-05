@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MindMap : MonoBehaviour
 {
@@ -18,7 +19,10 @@ public class MindMap : MonoBehaviour
 
     void Start()
     {
-
+        if (GameObject.Find("Editor Menu"))
+        {
+            GameObject.Find("Editor Menu").transform.Find("InputField").GetComponent<InputField>().text = mapName;
+        }
     }
 
     void Update()

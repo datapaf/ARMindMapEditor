@@ -48,7 +48,7 @@ public class CreationManager : MonoBehaviour
                 newNode.transform.rotation = hitObject.transform.rotation;
 
                 // set up the predecessor node of the new node
-                newNode.GetComponent<Node>().predNode = hitNode;
+                //newNode.GetComponent<Node>().predNode = hitNode;
 
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
@@ -67,7 +67,7 @@ public class CreationManager : MonoBehaviour
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
 
-                //newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
+                newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
 
                 // getting the distance from the camera to the node 
                 ZCoord = Camera.main.WorldToScreenPoint(newNode.transform.position).z;
@@ -83,7 +83,7 @@ public class CreationManager : MonoBehaviour
                 newNode.transform.position = hitObject.transform.position;
 
                 // set up the predecessor node of the new node
-                newNode.GetComponent<Node>().predNode = hitNode;
+                //newNode.GetComponent<Node>().predNode = hitNode;
 
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
@@ -101,7 +101,7 @@ public class CreationManager : MonoBehaviour
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
 
-                //newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
+                newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
 
                 // getting the distance from the camera to the node 
                 ZCoord = Camera.main.WorldToScreenPoint(newNode.transform.position).z;

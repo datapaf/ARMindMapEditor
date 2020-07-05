@@ -11,6 +11,7 @@ TagManager:
   - Axis
   - FloatingTopic
   - Callout
+  - MindMap
   layers:
   - Default
   - TransparentFX
