@@ -96,7 +96,26 @@ public class SaveController : MonoBehaviour
         }
 
         FileSave fileSave = new FileSave(FileFormat.Json);
-        fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
+
+        // here we prevent saving renamed file as a new one
+        if (File.Exists(Application.persistentDataPath + "/" + mindMapData.mapName + ".json"))
+        {
+            fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
+        }
+        else 
+        {
+            if (map.GetComponent<MindMap>().prevName != "" &&
+                File.Exists(Application.persistentDataPath + "/" + map.GetComponent<MindMap>().prevName + ".json"))
+            {
+                fileSave.WriteToFile(Application.persistentDataPath + "/" + map.GetComponent<MindMap>().prevName + ".json", mindMapData);
+                File.Move(Application.persistentDataPath + "/" + map.GetComponent<MindMap>().prevName + ".json",
+                    Application.persistentDataPath + "/" + mindMapData.mapName + ".json");
+            }
+            else 
+            {
+                fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
+            }
+        }
     }
 
     public GameObject LoadMap(string mapName)
@@ -214,8 +233,6 @@ public class SaveController : MonoBehaviour
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
 
                 Relationship itemRelationshipComponent = item.GetComponent<Relationship>();
-
-                Debug.LogWarning(newMindMap.transform.GetChild(data.object1NumberAsChild).childCount);
 
                 itemRelationshipComponent.object1 = newMindMap.transform.GetChild(data.object1NumberAsChild).gameObject;
                 itemRelationshipComponent.object2 = newMindMap.transform.GetChild(data.object2NumberAsChild).gameObject;

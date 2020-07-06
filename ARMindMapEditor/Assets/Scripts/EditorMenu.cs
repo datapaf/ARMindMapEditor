@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EditorMenu : MonoBehaviour
@@ -27,11 +28,21 @@ public class EditorMenu : MonoBehaviour
 
         if (doExist == false)
         {
+            mindMap.GetComponent<MindMap>().prevName = mindMap.GetComponent<MindMap>().mapName;
             mindMap.GetComponent<MindMap>().mapName = mapNameInputField.GetComponent<InputField>().text;
         }
-        else 
+        else
         {
             mapNameInputField.GetComponent<InputField>().text = mindMap.GetComponent<MindMap>().mapName;
         }
+
+        // save the new name
+        GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
+        Debug.Log("MAP SAVED");
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

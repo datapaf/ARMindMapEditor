@@ -10,7 +10,6 @@ public class MapButton : MonoBehaviour
     void Start()
     {
         mapName = transform.GetChild(0).GetComponent<Text>().text;
-        Debug.Log(mapName);
     }
 
     void Update()

@@ -9,7 +9,7 @@ public enum DemonstrationMode { Volume, Flat };
 
 public class MindMap : MonoBehaviour
 {
-    
+    public string prevName = "";
     public string mapName;
 
     // sizeMultiplier is the scalar that determines the size of all the objects
@@ -34,6 +34,7 @@ public class MindMap : MonoBehaviour
             if (isNew)
             {
                 mapName = GenerateNewName();
+                prevName = mapName;
                 Debug.LogWarning(mapName);
                 isNew = false;
             }
