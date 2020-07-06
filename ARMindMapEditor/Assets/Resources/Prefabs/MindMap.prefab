@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51647645960c47849bf6d565ed8930fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapName: MyMindMap
+  mapName: 
   sizeMultiplier: 1
   isPreview: 0
   mode: 0
+  isNew: 0
 --- !u!1001 &5110223429819775918
 PrefabInstance:
   m_ObjectHideFlags: 0

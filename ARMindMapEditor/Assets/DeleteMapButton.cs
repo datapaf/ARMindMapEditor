@@ -17,7 +17,7 @@ public class DeleteMapButton : MonoBehaviour
 
     public void DeleteMap()
     {
-        File.Delete("Assets/Resources/Maps/" + transform.parent.GetComponent<MapButton>().mapName + ".json");
+        File.Delete(Application.persistentDataPath + "/" + transform.parent.GetComponent<MapButton>().mapName + ".json");
 
         Destroy(transform.parent.gameObject);
     }

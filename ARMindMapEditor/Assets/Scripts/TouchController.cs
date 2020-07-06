@@ -8,16 +8,18 @@ public class TouchController : MonoBehaviour
     private float startTime;
     public float holdingTime = 0.5f;
 
+    private bool isSaved = true;
+
     public GameObject editorMenu;
     public GameObject tapToPlaceText;
     public GameObject cursor;
 
-    int prevState = -2;
-    int state = -1;
+    private int prevState = -2;
+    private int state = -1;
 
-    CreationManager creationManager;
-    SelectionManager selectionManager;
-    MovingManager movingManager;
+    private CreationManager creationManager;
+    private SelectionManager selectionManager;
+    private MovingManager movingManager;
 
     void Start()
     {
@@ -35,7 +37,7 @@ public class TouchController : MonoBehaviour
         }
 
         if (state == -1)
-        {
+        { 
             if (cursor.activeInHierarchy)
             {
                 tapToPlaceText.SetActive(true);
@@ -55,14 +57,23 @@ public class TouchController : MonoBehaviour
         }
         else if (state == 0)
         {
+            if (isSaved == false)
+            {
+                GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
+                isSaved = true;
+                Debug.Log("MAP SAVED");
+            }
+
             if (IsTapped() && IsPointedToRelationship())
             {
+                isSaved = false;
                 state = 10;
             }
             else if (IsTapped() && IsPointedToNode())
             {
                 startTime = Time.time; 
                 creationManager.PrepareForCreation();
+                isSaved = false;
                 state = 1;
             }
         }

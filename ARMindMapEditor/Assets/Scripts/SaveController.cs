@@ -4,45 +4,20 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using SaveSystem;
+using System;
 
 public class SaveController : MonoBehaviour
 {
-    private float startTime;
-    public float timeTillNextSaving;
-
-    private string prevName = "";
-
     void Start()
     {
-        startTime = Time.time;
     }
 
     void Update()
     {
-        if (Time.time - startTime >= timeTillNextSaving)
-        {
-            // as the script works all the time we save only if there is a mind map in the scene
-            if (GameObject.FindWithTag("MindMap"))
-            {
-                GameObject map = GameObject.FindWithTag("MindMap").gameObject;
-
-                // here we prevent saving the map with changed name as a new map
-                /*if (prevName != map.GetComponent<MindMap>().mapName)
-                {
-                    File.Delete("Assets/Resources/Maps/" + prevName + ".prefab");
-                    //AssetDatabase.Refresh();
-                    prevName = map.GetComponent<MindMap>().mapName;
-                }*/
-
-                //PrefabUtility.SaveAsPrefabAsset(map, "Assets/Resources/Maps/" + map.GetComponent<MindMap>().mapName + ".prefab");
-                SaveMap(map);
-            }
-            startTime = Time.time;
-        }
     }
 
     public void SaveMap(GameObject map)
-    {
+    {   
         MindMapData mindMapData = new MindMapData();
 
         mindMapData.mapName = map.GetComponent<MindMap>().mapName;
@@ -111,13 +86,9 @@ public class SaveController : MonoBehaviour
             }
             else if (item.GetComponent<Relationship>())
             {
-                data.object1x = item.GetComponent<Relationship>().object1.transform.position.x;
-                data.object1y = item.GetComponent<Relationship>().object1.transform.position.y;
-                data.object1z = item.GetComponent<Relationship>().object1.transform.position.z;
+                data.object1NumberAsChild = item.GetComponent<Relationship>().object1.transform.GetSiblingIndex();
 
-                data.object2x = item.GetComponent<Relationship>().object2.transform.position.x;
-                data.object2y = item.GetComponent<Relationship>().object2.transform.position.y;
-                data.object2z = item.GetComponent<Relationship>().object2.transform.position.z;
+                data.object2NumberAsChild = item.GetComponent<Relationship>().object2.transform.GetSiblingIndex();
             }
 
             // adding the collected data
@@ -125,20 +96,22 @@ public class SaveController : MonoBehaviour
         }
 
         FileSave fileSave = new FileSave(FileFormat.Json);
-        fileSave.WriteToFile("Assets/Resources/Maps/" + mindMapData.mapName + ".json", mindMapData);
+        fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
     }
 
     public GameObject LoadMap(string mapName)
     {
         FileSave fileSave = new FileSave(FileFormat.Json);
-        MindMapData mindMapData = fileSave.ReadFromFile<MindMapData>("Assets/Resources/Maps/" + mapName + ".json");
+        MindMapData mindMapData = fileSave.ReadFromFile<MindMapData>(Application.persistentDataPath + "/" + mapName + ".json");
 
         GameObject newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/EmptyMindMap", typeof(GameObject)));
-        
+
         newMindMap.GetComponent<MindMap>().mapName = mindMapData.mapName;
         newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
         newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
+
+        Vector3 CTposition = Vector3.zero;
 
         foreach (ItemData data in mindMapData.items)
         {
@@ -147,13 +120,10 @@ public class SaveController : MonoBehaviour
             if (data.itemType == ItemType.CT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/CT", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform, false);
-                item.SetActive(false);
-
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-                item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
+
+                CTposition = new Vector3(data.xPosition, data.yPosition, data.zPosition);
 
                 itemNodeComponent.text = data.text;
                 itemNodeComponent.size = data.size;
@@ -163,16 +133,14 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
-                item.SetActive(true);
+                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.MT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/MT", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform, false);
-                item.SetActive(false);
-
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-                item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
+                
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -184,16 +152,14 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
-                item.SetActive(true);
+                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Subtopic)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Subtopic", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform, false);
-                item.SetActive(false);
 
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-                item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -205,16 +171,14 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
-                item.SetActive(true);
+                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.FT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/FT", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform, false);
-                item.SetActive(false);
 
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-                item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -226,16 +190,14 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
-                item.SetActive(true);
+                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Callout)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform, false);
-                item.SetActive(false);
 
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-                item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Callout itemCalloutComponent = item.GetComponent<Callout>();
 
@@ -245,36 +207,25 @@ public class SaveController : MonoBehaviour
                 itemCalloutComponent.maxSize = data.maxSize;
                 itemCalloutComponent.level = data.level;
 
-                item.SetActive(true);
+                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Relationship)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform, false);
-                item.SetActive(false);
-
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-                item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Relationship itemRelationshipComponent = item.GetComponent<Relationship>();
 
-                foreach (GameObject go in GameObject.FindObjectsOfType(typeof(GameObject)))
-                {
-                    Debug.Log(go.name);
-                    if (go.transform.position == new Vector3(data.object1x, data.object1y, data.object1z))
-                    {
-                        itemRelationshipComponent.object1 = go;
-                    }
-                    else if (go.transform.position == new Vector3(data.object2x, data.object2y, data.object2z))
-                    {
-                        itemRelationshipComponent.object2 = go;
-                    }
-                }
+                Debug.LogWarning(newMindMap.transform.GetChild(data.object1NumberAsChild).childCount);
 
-                item.SetActive(true);
+                itemRelationshipComponent.object1 = newMindMap.transform.GetChild(data.object1NumberAsChild).gameObject;
+                itemRelationshipComponent.object2 = newMindMap.transform.GetChild(data.object2NumberAsChild).gameObject;
+
+                item.transform.SetParent(newMindMap.transform);
             }
         }
 
         return newMindMap;
     }
+
+    
 }

@@ -27,13 +27,8 @@ public class ItemData
     public Node.Shape shape;
     public int level;
 
-    public float object1x;
-    public float object1y;
-    public float object1z;
-
-    public float object2x;
-    public float object2y;
-    public float object2z;
+    public int object1NumberAsChild;
+    public int object2NumberAsChild;
 
     public ItemData()
     { }

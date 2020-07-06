@@ -8,7 +8,7 @@ public class GetMapsScript : MonoBehaviour
 {
     void Start()
     {
-        var info = new DirectoryInfo("Assets/Resources/Maps");
+        var info = new DirectoryInfo(Application.persistentDataPath);
         var fileInfo = info.GetFiles("*.json");
         foreach (var file in fileInfo)
         {

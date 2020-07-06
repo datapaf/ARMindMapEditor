@@ -7432,7 +7432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30c7cc997bace647b6c119313af37b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeTillNextSaving: 10
 --- !u!1 &1253732206
 GameObject:
   m_ObjectHideFlags: 0
@@ -11823,9 +11822,6 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
-  m_OnValueChanged:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1132485704}
         m_MethodName: ChangeMapName
@@ -11838,6 +11834,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}

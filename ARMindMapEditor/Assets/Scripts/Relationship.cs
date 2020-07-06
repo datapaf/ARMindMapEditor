@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Relationship : MonoBehaviour
 {
-
     public GameObject object1 = null;
     public GameObject object2 = null;
     private LineRenderer lineRenderer;
@@ -28,8 +27,8 @@ public class Relationship : MonoBehaviour
             collider.transform.LookAt(object1.transform.position);
             collider.height = (object2.transform.position - object1.transform.position).magnitude;
 
-            lineRenderer.SetPosition(1, object1.transform.position);
-            lineRenderer.SetPosition(0, object2.transform.position);
+            lineRenderer.SetPosition(1, transform.InverseTransformPoint(object1.transform.GetChild(1).GetChild(0).transform.position));
+            lineRenderer.SetPosition(0, transform.InverseTransformPoint(object2.transform.GetChild(1).GetChild(0).transform.position));
         }
     }
 }

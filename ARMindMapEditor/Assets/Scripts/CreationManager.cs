@@ -111,8 +111,8 @@ public class CreationManager : MonoBehaviour
         else if (isCreationGoing)
         {
             newNode.transform.position = GetTouchWorldPos();
-            newRelationship.GetComponent<Relationship>().object1 = hitObject.gameObject;
-            newRelationship.GetComponent<Relationship>().object2 = newNode.transform.GetChild(1).gameObject;
+            newRelationship.GetComponent<Relationship>().object1 = hitObject.transform.parent.parent.gameObject;
+            newRelationship.GetComponent<Relationship>().object2 = newNode.gameObject;
         }
     }
 

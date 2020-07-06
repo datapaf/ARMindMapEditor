@@ -18,30 +18,27 @@ public class Spawner : MonoBehaviour
         // if the placement is chosen and the spawner becomes active
         if (gameObject.activeInHierarchy) {
 
+            GameObject newMindMap;
+
             if (isLoadMode)
             {
-                GameObject newMindMap = GameObject.Find("SaveController").GetComponent<SaveController>().LoadMap(mapName);
-                if (isPreview)
-                {
-                    newMindMap.GetComponent<MindMap>().isPreview = true;
-                    newMindMap.transform.SetParent(transform.parent);
-                }
-                Destroy(gameObject);
+                newMindMap = GameObject.Find("SaveController").GetComponent<SaveController>().LoadMap(mapName);
             }
             // if it needs to create a new map 
             else 
             {
-                GameObject newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/MindMap", typeof(GameObject)));
-                if (isPreview)
-                {
-                    newMindMap.GetComponent<MindMap>().isPreview = true;
-                    newMindMap.transform.SetParent(transform.parent);
-                }
-                newMindMap.transform.position = gameObject.transform.position;
-                newMindMap.transform.rotation = gameObject.transform.rotation;
-                newMindMap.SetActive(true);
-                Destroy(gameObject);
+                newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/MindMap", typeof(GameObject)));
+                newMindMap.GetComponent<MindMap>().isNew = true;
             }
+            
+            if (isPreview)
+            {
+                newMindMap.GetComponent<MindMap>().isPreview = true;
+                newMindMap.transform.SetParent(transform.parent, false);
+            }
+            newMindMap.transform.position = gameObject.transform.position;
+            newMindMap.transform.rotation = gameObject.transform.rotation;
+            Destroy(gameObject);
         }
     }
 }
