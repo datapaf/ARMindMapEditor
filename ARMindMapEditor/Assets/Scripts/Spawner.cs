@@ -6,8 +6,10 @@ public class Spawner : MonoBehaviour
 {
     // mode determining whether the spawner have to open a map or have to create a new one
     public bool isLoadMode = false;
-    public string mapName;
+    public string mapName = null;
     public bool isPreview = false;
+    public bool isNew = true;
+    public bool doCreateWithCustomName = false;
 
     void Start()
     {        
@@ -20,14 +22,19 @@ public class Spawner : MonoBehaviour
 
             GameObject newMindMap;
 
-            if (isLoadMode)
+            if (doCreateWithCustomName)
+            {
+                newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/MindMap", typeof(GameObject)));
+                newMindMap.GetComponent<MindMap>().mapName = mapName;
+            }
+            else if (isLoadMode)
             {
                 newMindMap = GameObject.Find("SaveController").GetComponent<SaveController>().LoadMap(mapName);
             }
-            // if it needs to create a new map 
             else 
             {
                 newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/MindMap", typeof(GameObject)));
+                // pass the value to the parameter to generate the new name for the new map
                 newMindMap.GetComponent<MindMap>().isNew = true;
             }
             
@@ -38,6 +45,7 @@ public class Spawner : MonoBehaviour
             }
             newMindMap.transform.position = gameObject.transform.position;
             newMindMap.transform.rotation = gameObject.transform.rotation;
+
             Destroy(gameObject);
         }
     }

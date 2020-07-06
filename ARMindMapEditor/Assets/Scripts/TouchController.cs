@@ -15,7 +15,7 @@ public class TouchController : MonoBehaviour
     public GameObject cursor;
 
     private int prevState = -2;
-    private int state = -1;
+    public int state = -1;
 
     private CreationManager creationManager;
     private SelectionManager selectionManager;
@@ -204,7 +204,7 @@ public class TouchController : MonoBehaviour
 
     public bool IsTapped()
     {
-        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began || Input.GetMouseButtonDown(0);
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began;
     }
 
     public bool IsReleased()

@@ -27,6 +27,9 @@ public class ItemData
     public Node.Shape shape;
     public int level;
 
+    public int relationshipIndex;
+    public List<int> nextNodesIndices;
+
     public int object1NumberAsChild;
     public int object2NumberAsChild;
 

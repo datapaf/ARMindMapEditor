@@ -29,13 +29,13 @@ public class MindMap : MonoBehaviour
 
     void Update()
     {
+        // the following code is setting up the name of the map and the text in the input field
         if (GameObject.Find("Editor Menu"))
         {
             if (isNew)
             {
                 mapName = GenerateNewName();
                 prevName = mapName;
-                Debug.LogWarning(mapName);
                 isNew = false;
             }
             if (isInputFiledSetup == false)

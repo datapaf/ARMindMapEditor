@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using SaveSystem;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ActionsMenu : MonoBehaviour
@@ -164,5 +166,20 @@ public class ActionsMenu : MonoBehaviour
         inputField.SetActive(false);
         menu.transform.Find("Buttons").gameObject.SetActive(true);
         menu.transform.Find("Slider").gameObject.SetActive(true);
+    }
+
+    public void DeleteSelectedNode()
+    {
+        // deselect
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        Node.DeleteNode(node);
+        GameObject.FindObjectOfType<TouchController>().state = 0;
+    }
+
+    public void DeleteSelectedCallout()
+    {
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        Destroy(node);
+        GameObject.FindObjectOfType<TouchController>().state = 0;
     }
 }

@@ -43,6 +43,6 @@ public class EditorMenu : MonoBehaviour
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(0);
     }
 }

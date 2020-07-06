@@ -47,9 +47,6 @@ public class CreationManager : MonoBehaviour
                 newNode.transform.position = hitObject.transform.position;
                 newNode.transform.rotation = hitObject.transform.rotation;
 
-                // set up the predecessor node of the new node
-                //newNode.GetComponent<Node>().predNode = hitNode;
-
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
 
@@ -81,9 +78,6 @@ public class CreationManager : MonoBehaviour
                 newNode = Instantiate((GameObject)Resources.Load("Prefabs/Items/Subtopic", typeof(GameObject)));
                 newNode.transform.SetParent(hitNode.transform.parent.transform, false);
                 newNode.transform.position = hitObject.transform.position;
-
-                // set up the predecessor node of the new node
-                //newNode.GetComponent<Node>().predNode = hitNode;
 
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
@@ -133,6 +127,11 @@ public class CreationManager : MonoBehaviour
                     // if the colliders intersect then destroy newNode
                     Destroy(newNode);
                     Destroy(newRelationship);
+                }
+                else 
+                {
+                    hitNode.GetComponent<Node>().nextNodes.Add(newNode);
+                    newNode.GetComponent<Node>().relationship = newRelationship;
                 }
             }
 

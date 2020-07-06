@@ -9,7 +9,6 @@ public class MapButton : MonoBehaviour
 
     void Start()
     {
-        mapName = transform.GetChild(0).GetComponent<Text>().text;
     }
 
     void Update()

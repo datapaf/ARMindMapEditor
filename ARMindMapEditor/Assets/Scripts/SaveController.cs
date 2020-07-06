@@ -18,22 +18,28 @@ public class SaveController : MonoBehaviour
 
     public void SaveMap(GameObject map)
     {   
+        // create the entry containing the data about the whole map
         MindMapData mindMapData = new MindMapData();
 
+        // initialize the fields of the new entry
         mindMapData.mapName = map.GetComponent<MindMap>().mapName;
         mindMapData.sizeMultiplier = map.GetComponent<MindMap>().sizeMultiplier;
         mindMapData.isPreview = map.GetComponent<MindMap>().isPreview;
         mindMapData.mode = map.GetComponent<MindMap>().mode;
 
+        // creathe the list of the items that the map contains
         mindMapData.items = new List<ItemData>();
 
+        // going through each item
         for (int i = 0; i < map.transform.childCount; i++)
         {
+            // get the item
             GameObject item = map.transform.GetChild(i).gameObject;
+            
+            // create the new entry about the current item
             ItemData data = new ItemData();
 
             // collecting data
-
             data.xPosition = item.transform.position.x;
             data.yPosition = item.transform.position.y;
             data.zPosition = item.transform.position.z;
@@ -64,6 +70,7 @@ public class SaveController : MonoBehaviour
                     break;
             }
 
+            // collect other data depending on the type of the item
             if (item.GetComponent<Node>())
             {
                 data.text = item.GetComponent<Node>().text;
@@ -75,6 +82,20 @@ public class SaveController : MonoBehaviour
                 data.b = item.GetComponent<Node>().color.b;
                 data.shape = item.GetComponent<Node>().shape;
                 data.level = item.GetComponent<Node>().level;
+
+                if (item.GetComponent<Node>().relationship != null)
+                {
+                    data.relationshipIndex = item.GetComponent<Node>().relationship.transform.GetSiblingIndex();
+                }
+
+                data.nextNodesIndices = new List<int>();
+                foreach (var node in item.GetComponent<Node>().nextNodes)
+                {
+                    if (node != null)
+                    {
+                        data.nextNodesIndices.Add(node.transform.GetSiblingIndex());
+                    }
+                }
             }
             else if (item.GetComponent<Callout>())
             {
@@ -87,23 +108,26 @@ public class SaveController : MonoBehaviour
             else if (item.GetComponent<Relationship>())
             {
                 data.object1NumberAsChild = item.GetComponent<Relationship>().object1.transform.GetSiblingIndex();
-
                 data.object2NumberAsChild = item.GetComponent<Relationship>().object2.transform.GetSiblingIndex();
             }
 
-            // adding the collected data
+            // adding the collected data to the item entry
             mindMapData.items.Add(data);
         }
 
+        // prepare for saving to the file
         FileSave fileSave = new FileSave(FileFormat.Json);
 
         // here we prevent saving renamed file as a new one
         if (File.Exists(Application.persistentDataPath + "/" + mindMapData.mapName + ".json"))
         {
+            // the file with the map name exists then just rewrite it
             fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
         }
         else 
         {
+            // if the file with the map name does not exists but there exists the file with the old name of the map
+            // then rewrite that file and rename it
             if (map.GetComponent<MindMap>().prevName != "" &&
                 File.Exists(Application.persistentDataPath + "/" + map.GetComponent<MindMap>().prevName + ".json"))
             {
@@ -111,7 +135,8 @@ public class SaveController : MonoBehaviour
                 File.Move(Application.persistentDataPath + "/" + map.GetComponent<MindMap>().prevName + ".json",
                     Application.persistentDataPath + "/" + mindMapData.mapName + ".json");
             }
-            else 
+            // if the file with the map does not exists at all then create the new file and write there
+            else
             {
                 fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
             }
@@ -120,18 +145,23 @@ public class SaveController : MonoBehaviour
 
     public GameObject LoadMap(string mapName)
     {
+        // get the entry conaining the data about the whole map 
         FileSave fileSave = new FileSave(FileFormat.Json);
         MindMapData mindMapData = fileSave.ReadFromFile<MindMapData>(Application.persistentDataPath + "/" + mapName + ".json");
 
+        // instantiate the new empty map
         GameObject newMindMap = Instantiate((GameObject)Resources.Load("Prefabs/EmptyMindMap", typeof(GameObject)));
 
+        // retrieve the info about the map from the entry 
         newMindMap.GetComponent<MindMap>().mapName = mindMapData.mapName;
         newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
         newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
 
+        // here we will store the position of the central topic to set up the position of the other nodes
         Vector3 CTposition = Vector3.zero;
 
+        // going through each item that is in the map we set up their parameters
         foreach (ItemData data in mindMapData.items)
         {
             GameObject item;
@@ -152,6 +182,9 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
+                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
+                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
+
                 item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.MT)
@@ -159,7 +192,6 @@ public class SaveController : MonoBehaviour
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/MT", typeof(GameObject)));
                 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
-                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -170,6 +202,9 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
+
+                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
+                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
 
                 item.transform.SetParent(newMindMap.transform);
             }
@@ -178,7 +213,6 @@ public class SaveController : MonoBehaviour
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Subtopic", typeof(GameObject)));
 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
-                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -189,6 +223,9 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
+
+                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
+                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
 
                 item.transform.SetParent(newMindMap.transform);
             }
@@ -197,7 +234,6 @@ public class SaveController : MonoBehaviour
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/FT", typeof(GameObject)));
 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
-                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -209,6 +245,9 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
+                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
+                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
+
                 item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Callout)
@@ -216,7 +255,6 @@ public class SaveController : MonoBehaviour
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
-                //item.transform.rotation = Quaternion.Euler(new Vector3(data.xRotation, data.yRotation, data.zRotation));
 
                 Callout itemCalloutComponent = item.GetComponent<Callout>();
 
@@ -234,6 +272,7 @@ public class SaveController : MonoBehaviour
 
                 Relationship itemRelationshipComponent = item.GetComponent<Relationship>();
 
+                // here we obtain the objects that the relationship connects
                 itemRelationshipComponent.object1 = newMindMap.transform.GetChild(data.object1NumberAsChild).gameObject;
                 itemRelationshipComponent.object2 = newMindMap.transform.GetChild(data.object2NumberAsChild).gameObject;
 
@@ -241,8 +280,24 @@ public class SaveController : MonoBehaviour
             }
         }
 
+        int index = 0;
+        foreach (ItemData data in mindMapData.items)
+        {
+            Node item = newMindMap.transform.GetChild(index).gameObject.GetComponent<Node>();
+            if (data.itemType != ItemType.Relationship && data.itemType != ItemType.Callout)
+            {
+                item.relationship = newMindMap.transform.GetChild(data.relationshipIndex).gameObject;
+                item.nextNodes = new List<GameObject>();
+                foreach (var i in data.nextNodesIndices)
+                {
+                    item.nextNodes.Add(newMindMap.transform.GetChild(i).gameObject);
+                }
+            }
+
+            index++;
+        }
+
         return newMindMap;
     }
 
-    
 }
