@@ -11,7 +11,7 @@ public class TouchController : MonoBehaviour
     private bool isSaved = true;
 
     public GameObject editorMenu;
-    public GameObject tapToPlaceText;
+    public GameObject presetMenuUI;
     public GameObject cursor;
 
     private int prevState = -2;
@@ -40,17 +40,16 @@ public class TouchController : MonoBehaviour
         { 
             if (cursor.activeInHierarchy)
             {
-                tapToPlaceText.SetActive(true);
+                presetMenuUI.SetActive(true);
             }
             else
             {
-                tapToPlaceText.SetActive(false);
+                presetMenuUI.SetActive(false);
             }
             
-
-            if (IsTapped() && cursor.activeInHierarchy)
-            {
-                tapToPlaceText.SetActive(false);
+            if (IsTappedNotOnUI() && cursor.activeInHierarchy)
+            { 
+                presetMenuUI.SetActive(false);
                 editorMenu.SetActive(true);
                 state = 0;
             }
@@ -108,7 +107,7 @@ public class TouchController : MonoBehaviour
         }
         else if (state == 3)
         {
-            if (IsTappedForExitSelection())
+            if (IsTappedNotOnUI())
             {
                 selectionManager.Deselect();
                 state = 6;
@@ -167,7 +166,7 @@ public class TouchController : MonoBehaviour
         }
     }
 
-    public bool IsTappedForExitSelection()
+    public static bool IsTappedNotOnUI()
     {
         return IsTapped() && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
     }
@@ -201,7 +200,7 @@ public class TouchController : MonoBehaviour
         return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Stationary && (Time.time - startTime) > sec;
     }
 
-    public bool IsTapped()
+    public static bool IsTapped()
     {
         return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began;
     }

@@ -21,7 +21,7 @@ public class SaveController : MonoBehaviour
 
         // initialize the fields of the new entry
         mindMapData.mapName = map.GetComponent<MindMap>().mapName;
-        mindMapData.sizeMultiplier = map.GetComponent<MindMap>().sizeMultiplier;
+        //mindMapData.sizeMultiplier = map.GetComponent<MindMap>().sizeMultiplier;
         mindMapData.isPreview = map.GetComponent<MindMap>().isPreview;
         mindMapData.mode = map.GetComponent<MindMap>().mode;
 
@@ -45,6 +45,7 @@ public class SaveController : MonoBehaviour
             data.xRotation = item.transform.rotation.x;
             data.yRotation = item.transform.rotation.y;
             data.zRotation = item.transform.rotation.z;
+
 
             switch (item.tag)
             {
@@ -154,7 +155,7 @@ public class SaveController : MonoBehaviour
 
         // retrieve the info about the map from the entry 
         newMindMap.GetComponent<MindMap>().mapName = mindMapData.mapName;
-        newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
+        //newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
         newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
 
@@ -207,6 +208,7 @@ public class SaveController : MonoBehaviour
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Subtopic", typeof(GameObject)));
 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 

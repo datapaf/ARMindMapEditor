@@ -14,6 +14,7 @@ public class MindMap : MonoBehaviour
 
     // sizeMultiplier is the scalar that determines the size of all the objects
     public float sizeMultiplier = 1;
+    private float prevSizeMultiplier = 1;
 
     // the variable determines the preview mode
     public bool isPreview = false;
@@ -25,10 +26,16 @@ public class MindMap : MonoBehaviour
 
     void Start()
     {
+        sizeMultiplier = GameObject.FindObjectOfType<PresetSettings>().presetMapSize;
     }
 
     void Update()
     {
+        if (isPreview)
+        {
+            sizeMultiplier = GameObject.FindObjectOfType<PresetSettings>().presetMapSize;
+        }
+
         // the following code is setting up the name of the map and the text in the input field
         if (GameObject.Find("Editor Menu"))
         {
@@ -43,6 +50,13 @@ public class MindMap : MonoBehaviour
                 GameObject.Find("Editor Menu").transform.Find("InputField").GetComponent<InputField>().text = mapName;
                 isInputFiledSetup = true;
             }
+        }
+
+        // applying changing of the size if it happens
+        if (prevSizeMultiplier != sizeMultiplier)
+        {
+            gameObject.transform.localScale = Vector3.one * sizeMultiplier;
+            prevSizeMultiplier = sizeMultiplier;
         }
     }
 

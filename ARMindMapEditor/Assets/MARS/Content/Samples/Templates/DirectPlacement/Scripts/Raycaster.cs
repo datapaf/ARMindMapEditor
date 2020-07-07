@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Unity.MARS.Content
 {
@@ -155,9 +157,12 @@ namespace Unity.MARS.Content
             m_CursorTransform.rotation = Quaternion.LookRotation(Vector3.Cross(Vector3.Cross(forward, normal), normal), normal);
 
             // If the touch is held down, trigger a placement
-            m_PlacementTimer = Input.GetMouseButton(0) ? m_PlacementTimer + Time.deltaTime : 0.0f;
+            //m_PlacementTimer = Input.GetMouseButton(0) ? m_PlacementTimer + Time.deltaTime : 0.0f;
+            //m_PlacementTimer = TouchController.IsTappedNotOnUI() ?
+            //    m_PlacementTimer + Time.deltaTime : 0.0f;
 
-            if (m_PlacementTimer >= m_PlacementHoldTime)
+            //if (m_PlacementTimer >= m_PlacementHoldTime)
+            if (TouchController.IsTappedNotOnUI())
                 PlaceObject();
         }
 

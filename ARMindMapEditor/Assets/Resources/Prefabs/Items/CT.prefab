@@ -44,15 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37cd60b852e663b4f80e802299e26eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeType: 0
   text: Central Topic
   size: 1
-  minSize: 0
-  maxSize: 0
+  minSize: 0.5
+  maxSize: 1
   color: {r: 1, g: 0, b: 0, a: 1}
   shape: 0
   level: 0
-  predNode: {fileID: 0}
+  relationship: {fileID: 0}
+  nextNodes: []
 --- !u!1001 &8969323855033881196
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Caption : MonoBehaviour
 {
+    public float sizeMultiplier = 2;
+
     private GameObject text;
     private GameObject background;
     private GameObject model;
@@ -38,7 +40,7 @@ public class Caption : MonoBehaviour
         }
         
 
-        background.transform.localScale = new Vector3(2, 1, 2) *
+        background.transform.localScale = sizeMultiplier * new Vector3(1,.5f,1) *
             Mathf.Min(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z);
 
         transform.LookAt(Camera.main.transform.position, -Vector3.up);

@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class CreationManager : MonoBehaviour
 {
+    public float sizeMultiplierOfNewNode = 0.75f;
+
     // tag of the object that the user tapped on
     private string tappedNodeTag = null;
     // the gameobject of the new created nodes 
@@ -50,15 +52,11 @@ public class CreationManager : MonoBehaviour
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
 
-
                 // set up the size of the new node
-                newNode.GetComponent<Node>().maxSize = hitNode.GetComponent<Node>().size;
-                newNode.GetComponent<Node>().minSize = hitNode.GetComponent<Node>().size * 0.5f;
                 newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
                 if (newNode.GetComponent<Node>().level < 4)
                 {
-                    newNode.GetComponent<Node>().size *= 0.5f;
-                    newNode.GetComponent<Node>().minSize = newNode.GetComponent<Node>().maxSize * 0.25f;
+                    newNode.GetComponent<Node>().size *= sizeMultiplierOfNewNode;
                 }
 
                 // instantiation of the new relationship connecting the nre node and the predecessor
@@ -83,13 +81,10 @@ public class CreationManager : MonoBehaviour
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
 
                 // set up the size of the new node
-                newNode.GetComponent<Node>().maxSize = hitNode.GetComponent<Node>().size;
-                newNode.GetComponent<Node>().minSize = hitNode.GetComponent<Node>().size * 0.5f;
                 newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
                 if (newNode.GetComponent<Node>().level < 4)
                 {
-                    newNode.GetComponent<Node>().size *= 0.5f;
-                    newNode.GetComponent<Node>().minSize = newNode.GetComponent<Node>().maxSize * 0.25f;
+                    newNode.GetComponent<Node>().size *= sizeMultiplierOfNewNode;
                 }
 
                 // instantiation of the new relationship connecting the nre node and the predecessor

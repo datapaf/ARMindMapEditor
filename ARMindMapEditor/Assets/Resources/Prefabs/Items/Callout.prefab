@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Callout
   size: 1
+  minSize: 0.5
+  maxSize: 1
+  level: 0
 --- !u!1001 &3088536361903887543
 PrefabInstance:
   m_ObjectHideFlags: 0
