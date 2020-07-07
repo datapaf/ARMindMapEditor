@@ -171,15 +171,15 @@ public class ActionsMenu : MonoBehaviour
     public void DeleteSelectedNode()
     {
         // deselect
-        GameObject.FindObjectOfType<SelectionManager>().Deselect();
         Node.DeleteNode(node);
-        GameObject.FindObjectOfType<TouchController>().state = 0;
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        GameObject.FindObjectOfType<TouchController>().state = 6;
     }
 
     public void DeleteSelectedCallout()
     {
-        GameObject.FindObjectOfType<SelectionManager>().Deselect();
         Destroy(node);
-        GameObject.FindObjectOfType<TouchController>().state = 0;
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        GameObject.FindObjectOfType<TouchController>().state = 6;
     }
 }

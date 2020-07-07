@@ -57,11 +57,10 @@ public class TouchController : MonoBehaviour
         }
         else if (state == 0)
         {
-            if (isSaved == false)
+            if (GameObject.FindObjectOfType<MindMap>() && isSaved == false)
             {
-                GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
+                GameObject.FindObjectOfType<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
                 isSaved = true;
-                Debug.Log("MAP SAVED");
             }
 
             if (IsTapped() && IsPointedToRelationship())
@@ -73,7 +72,7 @@ public class TouchController : MonoBehaviour
             {
                 startTime = Time.time; 
                 creationManager.PrepareForCreation();
-                isSaved = false;
+                isSaved = false; 
                 state = 1;
             }
         }

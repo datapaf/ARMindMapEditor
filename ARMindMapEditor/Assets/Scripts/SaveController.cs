@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using SaveSystem;
-using System;
 
 public class SaveController : MonoBehaviour
 {
@@ -89,11 +87,11 @@ public class SaveController : MonoBehaviour
                 }
 
                 data.nextNodesIndices = new List<int>();
-                foreach (var node in item.GetComponent<Node>().nextNodes)
+                foreach (var nextNode in item.GetComponent<Node>().nextNodes)
                 {
-                    if (node != null)
+                    if (nextNode != null)
                     {
-                        data.nextNodesIndices.Add(node.transform.GetSiblingIndex());
+                        data.nextNodesIndices.Add(nextNode.transform.GetSiblingIndex());
                     }
                 }
             }
@@ -141,6 +139,8 @@ public class SaveController : MonoBehaviour
                 fileSave.WriteToFile(Application.persistentDataPath + "/" + mindMapData.mapName + ".json", mindMapData);
             }
         }
+
+        Debug.Log("MAP SAVED");
     }
 
     public GameObject LoadMap(string mapName)
@@ -182,9 +182,6 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
-                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
-                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
-
                 item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.MT)
@@ -202,9 +199,6 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
-
-                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
-                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
 
                 item.transform.SetParent(newMindMap.transform);
             }
@@ -224,9 +218,6 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
 
-                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
-                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
-
                 item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.FT)
@@ -244,9 +235,6 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shape = data.shape;
                 itemNodeComponent.level = data.level;
-
-                /*itemNodeComponent.relationshipIndex = data.relationshipIndex;
-                itemNodeComponent.nextNodesIndices = data.nextNodesIndices;*/
 
                 item.transform.SetParent(newMindMap.transform);
             }

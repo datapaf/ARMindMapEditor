@@ -97,18 +97,11 @@ public class Node : MonoBehaviour
 
         foreach (var go in node.GetComponent<Node>().nextNodes)
         {
-            DeleteNode(go);
-        }
-
-        /*GameObject predNode = node.GetComponent<Node>().relationship.GetComponent<Relationship>().object1;
-        foreach (var go in predNode.GetComponent<Node>().nextNodes)
-        {
-            if (GameObject.ReferenceEquals(node, go))
+            if (go != null)
             {
-                predNode.GetComponent<Node>().nextNodes.Remove(node);
-                break;
+                DeleteNode(go);
             }
-        }*/
+        }
 
         //delete relationship
         Destroy(node.GetComponent<Node>().relationship);
