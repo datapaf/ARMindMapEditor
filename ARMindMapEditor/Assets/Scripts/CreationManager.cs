@@ -53,11 +53,11 @@ public class CreationManager : MonoBehaviour
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
 
                 // set up the size of the new node
-                newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
-                if (newNode.GetComponent<Node>().level < 4)
+                //newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
+                /*if (newNode.GetComponent<Node>().level < 4)
                 {
                     newNode.GetComponent<Node>().size *= sizeMultiplierOfNewNode;
-                }
+                }*/
 
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
@@ -81,11 +81,11 @@ public class CreationManager : MonoBehaviour
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
 
                 // set up the size of the new node
-                newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
-                if (newNode.GetComponent<Node>().level < 4)
+                //newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
+                /*if (newNode.GetComponent<Node>().level < 4)
                 {
                     newNode.GetComponent<Node>().size *= sizeMultiplierOfNewNode;
-                }
+                }*/
 
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
@@ -110,6 +110,7 @@ public class CreationManager : MonoBehaviour
         // if a new node has been created and creation is going
         if (newNode != null && isCreationGoing)
         {
+
             // if we can obtain its shape
             if (newNode.transform.GetChild(1) != null && newNode.transform.GetChild(1).transform.GetChild(0) != null)
             {
@@ -123,13 +124,13 @@ public class CreationManager : MonoBehaviour
                     Destroy(newNode);
                     Destroy(newRelationship);
                 }
-                else 
+                else
                 {
                     hitNode.GetComponent<Node>().nextNodes.Add(newNode);
                     newNode.GetComponent<Node>().relationship = newRelationship;
                 }
             }
-
+            
             // clear the tag of the tapped node
             tappedNodeTag = null;
 

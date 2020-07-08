@@ -23,12 +23,15 @@ public class Relationship : MonoBehaviour
     {
         if (object1 != null && object2 != null)
         {
-            capsuleCollider.transform.position = object1.transform.position + (object2.transform.position - object1.transform.position) / 2;
-            capsuleCollider.transform.LookAt(object1.transform.position);
-            capsuleCollider.height = (object2.transform.position - object1.transform.position).magnitude;
+            GameObject start = object1.transform.GetChild(1).GetChild(0).gameObject;
+            GameObject end = object2.transform.GetChild(1).GetChild(0).gameObject;
 
-            lineRenderer.SetPosition(1, transform.InverseTransformPoint(object1.transform.GetChild(1).GetChild(0).transform.position));
-            lineRenderer.SetPosition(0, transform.InverseTransformPoint(object2.transform.GetChild(1).GetChild(0).transform.position));
+            capsuleCollider.transform.position = start.transform.position + (end.transform.position - start.transform.position) / 2;
+            capsuleCollider.transform.LookAt(start.transform.position);
+            capsuleCollider.height = (end.transform.position - start.transform.position).magnitude;
+
+            lineRenderer.SetPosition(1, transform.InverseTransformPoint(start.transform.position));
+            lineRenderer.SetPosition(0, transform.InverseTransformPoint(end.transform.position));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,6 +21,8 @@ public class TouchController : MonoBehaviour
     private CreationManager creationManager;
     private SelectionManager selectionManager;
     private MovingManager movingManager;
+
+    private bool notMoved;
 
     void Start()
     {
@@ -69,7 +72,8 @@ public class TouchController : MonoBehaviour
             }
             else if (IsTapped() && IsPointedToNode())
             {
-                startTime = Time.time; 
+                startTime = Time.time;
+                notMoved = true;
                 creationManager.PrepareForCreation();
                 isSaved = false; 
                 state = 1;
@@ -77,10 +81,14 @@ public class TouchController : MonoBehaviour
         }
         else if (state == 1)
         {
+            if (IsMoved())
+            {
+                notMoved = false;
+            }
 
             selectionManager.PrepareForSelection();
 
-            if (IsMoved())
+            if (IsMovedSignificantly())
             {
                 state = 2;
             }
@@ -190,6 +198,12 @@ public class TouchController : MonoBehaviour
         return isRelationship(pointedObject);
     }
 
+    public bool IsMovedSignificantly()
+    {
+        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved &&
+            ( Mathf.Abs(Input.GetTouch(0).deltaPosition.x) > Screen.width / 20 || Mathf.Abs(Input.GetTouch(0).deltaPosition.y) > Screen.width / 20);
+    }
+
     public bool IsMoved()
     {
         return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved;
@@ -197,7 +211,7 @@ public class TouchController : MonoBehaviour
 
     public bool IsHeld(float sec)
     {
-        return Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Stationary && (Time.time - startTime) > sec;
+        return Input.touchCount == 1 && notMoved && (Time.time - startTime) > sec;
     }
 
     public static bool IsTapped()

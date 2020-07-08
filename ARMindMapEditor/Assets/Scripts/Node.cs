@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Node : MonoBehaviour
 {
-    // the list of possible shapes
-    public enum Shape { Sphere, Parallelopipedon, Capsule };
+    // the lists of possible shapes
+    public enum VolumeShape { Sphere, Parallelopipedon, Capsule };
+    public enum FlatShape { Circle, Rectangle, Ellipse };
 
     public string text;
     
@@ -18,7 +19,7 @@ public class Node : MonoBehaviour
 
     public Color color;
     
-    public Shape shape;
+    public VolumeShape shape;
 
     public int level;
 
@@ -33,13 +34,13 @@ public class Node : MonoBehaviour
         // loading the model depending on the chosen shape
         switch (shape)
         {
-            case Shape.Sphere:
+            case VolumeShape.Sphere:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Sphere", typeof(GameObject)));
                 break;
-            case Shape.Parallelopipedon:
+            case VolumeShape.Parallelopipedon:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Parallelopipedon", typeof(GameObject)));
                 break;
-            case Shape.Capsule:
+            case VolumeShape.Capsule:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Capsule", typeof(GameObject)));
                 break;
         }   
@@ -62,17 +63,8 @@ public class Node : MonoBehaviour
         // moving the model upward to place it on the surface
         model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);
 
-        // if the node is a central topic then set up the special parameters
-        if (gameObject.tag == "CentralTopic")
-        {
-            minSize = size * 0.5f;
-            maxSize = gameObject.transform.parent.GetComponent<MindMap>().sizeMultiplier;
-            level = 0;
-        }
-
         // the size is not changing at the start
         prevSize = size;
-
     }
 
     void Update()
