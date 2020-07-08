@@ -24,7 +24,8 @@ public class ItemData
     public float r;
     public float g;
     public float b;
-    public Node.VolumeShape shape;
+    public Node.VolumeShape volumeShape;
+    public Node.FlatShape flatShape;
     public int level;
 
     public int relationshipIndex;

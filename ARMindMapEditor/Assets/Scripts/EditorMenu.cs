@@ -8,6 +8,25 @@ using UnityEngine.UI;
 public class EditorMenu : MonoBehaviour
 {
     public GameObject mapNameInputField;
+    public Sprite FlatModeButtonSprite;
+    public Sprite VolumeModeButtonSprite;
+
+    void Update()
+    {
+        if (GameObject.FindObjectOfType<MindMap>())
+        {
+            MindMap mindMap = GameObject.FindObjectOfType<MindMap>();
+
+            if (mindMap.mode == DemonstrationMode.Flat)
+            {
+                transform.Find("ModeButton").GetComponent<Image>().sprite = VolumeModeButtonSprite;
+            }
+            else if (mindMap.mode == DemonstrationMode.Volume)
+            {
+                transform.Find("ModeButton").GetComponent<Image>().sprite = FlatModeButtonSprite;
+            }
+        }
+    }
 
     public void ChangeMapName()
     {
@@ -38,11 +57,25 @@ public class EditorMenu : MonoBehaviour
 
         // save the new name
         GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
-        Debug.Log("MAP SAVED");
     }
 
     public void BackToMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void ChangeDemonstrationMode()
+    {
+        MindMap mindMap = GameObject.FindObjectOfType<MindMap>();
+        if (mindMap.mode == DemonstrationMode.Flat)
+        {
+            mindMap.mode = DemonstrationMode.Volume;
+        }
+        else if (mindMap.mode == DemonstrationMode.Volume)
+        {
+            mindMap.mode = DemonstrationMode.Flat;
+        }
+
+        GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
     }
 }

@@ -79,7 +79,8 @@ public class SaveController : MonoBehaviour
                 data.r = item.GetComponent<Node>().color.r;
                 data.g = item.GetComponent<Node>().color.g;
                 data.b = item.GetComponent<Node>().color.b;
-                data.shape = item.GetComponent<Node>().volumeShape;
+                data.volumeShape = item.GetComponent<Node>().volumeShape;
+                data.flatShape = item.GetComponent<Node>().flatShape;
                 data.level = item.GetComponent<Node>().level;
 
                 if (item.GetComponent<Node>().relationship != null)
@@ -180,7 +181,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
-                itemNodeComponent.volumeShape = data.shape;
+                itemNodeComponent.volumeShape = data.volumeShape;
+                itemNodeComponent.flatShape = data.flatShape;
                 itemNodeComponent.level = data.level;
 
                 item.transform.SetParent(newMindMap.transform);
@@ -198,7 +200,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
-                itemNodeComponent.volumeShape = data.shape;
+                itemNodeComponent.volumeShape = data.volumeShape;
+                itemNodeComponent.flatShape = data.flatShape;
                 itemNodeComponent.level = data.level;
 
                 item.transform.SetParent(newMindMap.transform);
@@ -209,7 +212,6 @@ public class SaveController : MonoBehaviour
 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
 
-
                 Node itemNodeComponent = item.GetComponent<Node>();
 
                 itemNodeComponent.text = data.text;
@@ -217,7 +219,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
-                itemNodeComponent.volumeShape = data.shape;
+                itemNodeComponent.volumeShape = data.volumeShape;
+                itemNodeComponent.flatShape = data.flatShape;
                 itemNodeComponent.level = data.level;
 
                 item.transform.SetParent(newMindMap.transform);
@@ -235,7 +238,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
-                itemNodeComponent.volumeShape = data.shape;
+                itemNodeComponent.volumeShape = data.volumeShape;
+                itemNodeComponent.flatShape = data.flatShape;
                 itemNodeComponent.level = data.level;
 
                 item.transform.SetParent(newMindMap.transform);

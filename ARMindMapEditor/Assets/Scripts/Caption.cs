@@ -11,7 +11,12 @@ public class Caption : MonoBehaviour
     private GameObject background;
     private GameObject model;
 
-    private bool isSetupDone = false;
+    private bool isSetupDone;
+
+    private void OnEnable()
+    {
+        isSetupDone = false;
+    }
 
     void Update()
     {
@@ -25,7 +30,7 @@ public class Caption : MonoBehaviour
             transform.LookAt(Camera.main.transform.position, -Vector3.up);
 
             var radius = Mathf.Max(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z) / 4;
-            background.transform.position -= background.transform.forward * radius;
+            background.transform.position = transform.position - background.transform.forward * radius;
 
             isSetupDone = true;
         }
@@ -44,6 +49,5 @@ public class Caption : MonoBehaviour
             Mathf.Min(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z);
 
         transform.LookAt(Camera.main.transform.position, -Vector3.up);
-        
     }
 }
