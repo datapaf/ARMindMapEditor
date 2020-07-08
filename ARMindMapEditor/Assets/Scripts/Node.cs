@@ -19,7 +19,8 @@ public class Node : MonoBehaviour
 
     public Color color;
     
-    public VolumeShape shape;
+    public VolumeShape volumeShape;
+    public FlatShape flatShape;
 
     public int level;
 
@@ -31,33 +32,75 @@ public class Node : MonoBehaviour
 
     void Start()
     {
-        // loading the model depending on the chosen shape
-        switch (shape)
+        if (transform.parent.GetComponent<MindMap>().mode == DemonstrationMode.Volume)
         {
-            case VolumeShape.Sphere:
-                model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Sphere", typeof(GameObject)));
-                break;
-            case VolumeShape.Parallelopipedon:
-                model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Parallelopipedon", typeof(GameObject)));
-                break;
-            case VolumeShape.Capsule:
-                model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Capsule", typeof(GameObject)));
-                break;
-        }   
+            // loading the model depending on the chosen shape
+            switch (volumeShape)
+            {
+                case VolumeShape.Sphere:
+                    model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Sphere", typeof(GameObject)));
+                    break;
+                case VolumeShape.Parallelopipedon:
+                    model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Parallelopipedon", typeof(GameObject)));
+                    break;
+                case VolumeShape.Capsule:
+                    model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Capsule", typeof(GameObject)));
+                    break;
+            }
 
-        // make instantiated model be child of the node object
-        model.transform.SetParent(gameObject.transform, false);
+            // make instantiated model be child of the node object
+            model.transform.SetParent(gameObject.transform, false);
 
-        // stretching the model depending on the chosen size 
-        model.transform.localScale *= size;
+            // stretching the model depending on the chosen size 
+            model.transform.localScale *= size;
 
-        // changing the color depending on the chosen color 
-        var modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
-        modelRenderer.material.SetColor("_Color", color);
+            // changing the color depending on the chosen color 
+            var modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
+            modelRenderer.material.SetColor("_Color", color);
 
-        // changing transparency if it is preview
-        if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview) {
-            modelRenderer.material.color = new Color(color.r, color.g, color.b, 0.5f);
+            // changing transparency if it is preview
+            if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview)
+            {
+                modelRenderer.material.color = new Color(color.r, color.g, color.b, 0.5f);
+            }
+        }
+        else if (transform.parent.GetComponent<MindMap>().mode == DemonstrationMode.Flat)
+        {
+            // disable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(false);
+
+            // loading the model depending on the chosen shape
+            switch (flatShape)
+            {
+                case FlatShape.Circle:
+                    model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Circle", typeof(GameObject)));
+                    break;
+                case FlatShape.Rectangle:
+                    model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Rectangle", typeof(GameObject)));
+                    break;
+                case FlatShape.Ellipse:
+                    model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Ellipse", typeof(GameObject)));
+                    break;
+            }
+
+            // make instantiated model be child of the node object
+            model.transform.SetParent(gameObject.transform, false);
+
+            // stretching the model depending on the chosen size 
+            model.transform.localScale *= size;
+
+            // changing the color depending on the chosen color 
+            var modelRenderer = model.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            modelRenderer.material.SetColor("_Color", color);
+
+            // changing transparency if it is preview
+            if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview)
+            {
+                modelRenderer.material.color = new Color(color.r, color.g, color.b, 0.5f);
+            }
+
+            // set the text on the shape
+            model.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = text;
         }
 
         // moving the model upward to place it on the surface

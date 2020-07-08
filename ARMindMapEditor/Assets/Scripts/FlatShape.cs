@@ -11,6 +11,9 @@ public class FlatShape : MonoBehaviour
 
     void Update()
     {
-        transform.LookAt(Camera.main.transform.position, -Vector3.up);
+        Vector3 targetPostition = new Vector3(Camera.main.transform.position.x,
+                                       this.transform.position.y,
+                                       Camera.main.transform.position.z);
+        this.transform.LookAt(targetPostition, -Vector3.up);
     }
 }
