@@ -76,9 +76,10 @@ public class SaveController : MonoBehaviour
                 data.size = item.GetComponent<Node>().size;
                 data.minSize = item.GetComponent<Node>().minSize;
                 data.maxSize = item.GetComponent<Node>().maxSize;
-                data.r = item.GetComponent<Node>().color.r;
+                data.nodeColor = item.GetComponent<Node>().nodeColor;
+                /*data.r = item.GetComponent<Node>().color.r;
                 data.g = item.GetComponent<Node>().color.g;
-                data.b = item.GetComponent<Node>().color.b;
+                data.b = item.GetComponent<Node>().color.b;*/
                 data.shapeType = item.GetComponent<Node>().shapeType;
                 data.level = item.GetComponent<Node>().level;
 
@@ -179,7 +180,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.size = data.size;
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
-                itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
+                itemNodeComponent.nodeColor = data.nodeColor;
+                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
 
@@ -197,7 +199,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.size = data.size;
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
-                itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
+                itemNodeComponent.nodeColor = data.nodeColor;
+                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
 
@@ -215,7 +218,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.size = data.size;
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
-                itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
+                itemNodeComponent.nodeColor = data.nodeColor;
+                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
 
@@ -233,7 +237,8 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.size = data.size;
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
-                itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
+                itemNodeComponent.nodeColor = data.nodeColor;
+                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
 

@@ -13,7 +13,8 @@ public class Node : MonoBehaviour
     public float minSize;
     public float maxSize;
 
-    public Color color;
+    public NodeColor.ColorType nodeColor;
+    //private Color color;
 
     public DemonstrationMode mode;
 
@@ -110,12 +111,12 @@ public class Node : MonoBehaviour
 
         // changing the color depending on the chosen color 
         var modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
-        modelRenderer.material.SetColor("_Color", color);
+        modelRenderer.material.SetColor("_Color", NodeColor.GetColor(nodeColor));
 
         // changing transparency if it is preview
         if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview)
         {
-            modelRenderer.material.color = new Color(color.r, color.g, color.b, 0.5f);
+            modelRenderer.material.color = new Color32(NodeColor.GetColor(nodeColor).r, NodeColor.GetColor(nodeColor).g, NodeColor.GetColor(nodeColor).b, 127);
         }
 
         // moving the model upward to place it on the surface
@@ -146,12 +147,12 @@ public class Node : MonoBehaviour
 
         // changing the color depending on the chosen color 
         var modelRenderer = model.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
-        modelRenderer.material.SetColor("_Color", color);
+        modelRenderer.material.SetColor("_Color", NodeColor.GetColor(nodeColor));
 
         // changing transparency if it is preview
         if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview)
         {
-            modelRenderer.material.color = new Color(color.r, color.g, color.b, 0.5f);
+            modelRenderer.material.color = new Color32(NodeColor.GetColor(nodeColor).r, NodeColor.GetColor(nodeColor).g, NodeColor.GetColor(nodeColor).b, 127);
         }
 
         // set the text on the shape
@@ -215,17 +216,34 @@ public class Node : MonoBehaviour
 
     private void SwitchShapeType()
     {
-        switch (shapeType)
+        if (shapeType != Shape.ShapeType.Type3)
+            shapeType++;
+        else
+            shapeType = Shape.ShapeType.Type1;
+    }
+
+    public void ChangeColor()
+    {
+        SwitchColor();
+
+        if (mode == DemonstrationMode.Volume)
         {
-            case Shape.ShapeType.Type1:
-                shapeType = Shape.ShapeType.Type2;
-                break;
-            case Shape.ShapeType.Type2:
-                shapeType = Shape.ShapeType.Type3;
-                break;
-            case Shape.ShapeType.Type3:
-                shapeType = Shape.ShapeType.Type1;
-                break;
+            var modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
+            modelRenderer.material.SetColor("_Color", NodeColor.GetColor(nodeColor));
         }
+        else if (mode == DemonstrationMode.Flat)
+        {
+            var modelRenderer = model.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+            modelRenderer.material.SetColor("_Color", NodeColor.GetColor(nodeColor));
+        }
+        
+    }
+
+    public void SwitchColor()
+    {
+        if (nodeColor != NodeColor.ColorType.Grey)
+            nodeColor++;
+        else
+            nodeColor = NodeColor.ColorType.Red;
     }
 }

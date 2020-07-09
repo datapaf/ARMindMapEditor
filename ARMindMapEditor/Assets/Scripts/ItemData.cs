@@ -21,9 +21,10 @@ public class ItemData
     public float size;
     public float minSize;
     public float maxSize;
-    public float r;
+    public NodeColor.ColorType nodeColor;
+    /*public float r;
     public float g;
-    public float b;
+    public float b;*/
     public Shape.ShapeType shapeType;
     public int level;
 

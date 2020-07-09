@@ -48,7 +48,7 @@ MonoBehaviour:
   size: 1
   minSize: 0.5
   maxSize: 1
-  color: {r: 1, g: 1, b: 1, a: 1}
+  nodeColor: 2
   mode: 0
   shapeType: 2
   level: 0

@@ -179,4 +179,11 @@ public class ActionsMenu : MonoBehaviour
         GameObject.FindObjectOfType<SelectionManager>().Deselect();
         GameObject.FindObjectOfType<TouchController>().state = 0;
     }
+
+    public void ChangeNodeColor()
+    {
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        GameObject.FindObjectOfType<TouchController>().state = 0;
+        node.GetComponent<Node>().ChangeColor();
+    }
 }
