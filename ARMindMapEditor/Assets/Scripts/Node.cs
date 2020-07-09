@@ -19,7 +19,7 @@ public class Node : MonoBehaviour
 
     public Color color;
 
-    private DemonstrationMode mode;
+    public DemonstrationMode mode;
 
     public VolumeShape volumeShape;
     public FlatShape flatShape;
@@ -150,7 +150,7 @@ public class Node : MonoBehaviour
         model.transform.localScale *= size;
 
         // changing the color depending on the chosen color 
-        var modelRenderer = model.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        var modelRenderer = model.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
         modelRenderer.material.SetColor("_Color", color);
 
         // changing transparency if it is preview
@@ -160,7 +160,7 @@ public class Node : MonoBehaviour
         }
 
         // set the text on the shape
-        model.transform.GetChild(0).transform.GetChild(0).GetComponent<TextMesh>().text = text;
+        model.transform.GetChild(0).GetChild(1).GetComponent<TextMesh>().text = text;
 
         // moving the model upward to place it on the surface
         model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);

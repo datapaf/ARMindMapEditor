@@ -16,33 +16,60 @@ public class Callout : MonoBehaviour
     // the model of the node
     private GameObject model;
 
+    public DemonstrationMode mode;
+
     void Start()
     {
-        model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/CalloutShape", typeof(GameObject)));
 
-        // make instantiated model be child of the node object
-        model.transform.SetParent(gameObject.transform, false);
-
-        // stretching the model depending on the chosen size 
-        model.transform.localScale *= size;
-
-        // changing transparency if it is preview
-        var modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
-        if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview)
+        while (!GameObject.FindObjectOfType<MindMap>())
         {
-            modelRenderer.material.color = new Color(modelRenderer.material.color.r, modelRenderer.material.color.g, modelRenderer.material.color.b, 0.5f);
+            mode = GameObject.FindObjectOfType<MindMap>().GetComponent<Node>().mode;
         }
 
-        // moving the model upward to place it on the surface
-        model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);
+        if (mode == DemonstrationMode.Volume)
+        {
+            // enable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(true);
+
+            SetupVolumeCallout();
+        }
+        else if (mode == DemonstrationMode.Flat)
+        {
+            // disable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(false);
+
+            SetupFlatCallout();
+        }
 
         // the size is not changing at the start
         prevSize = size;
-
     }
 
     void Update()
     {
+        if (transform.parent.GetComponent<MindMap>().mode == DemonstrationMode.Volume && mode == DemonstrationMode.Flat)
+        {
+            Destroy(model);
+
+            SetupVolumeCallout();
+
+            // enable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(true);
+
+            mode = DemonstrationMode.Volume;
+        }
+        else if (transform.parent.GetComponent<MindMap>().mode == DemonstrationMode.Flat && mode == DemonstrationMode.Volume)
+        {
+            // disable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(false);
+
+            Destroy(model);
+
+            SetupFlatCallout();
+
+            mode = DemonstrationMode.Flat;
+        }
+
         // applying changing of the size if it happens
         if (prevSize != size)
         {
@@ -51,15 +78,8 @@ public class Callout : MonoBehaviour
         }
     }
 
-    /*public string text;
-    public float size;
-
-    // the model of the node
-    private GameObject model;
-
-    void Start()
+    private void SetupVolumeCallout()
     {
-        // instantiation
         model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/CalloutShape", typeof(GameObject)));
 
         // make instantiated model be child of the node object
@@ -79,7 +99,30 @@ public class Callout : MonoBehaviour
         model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);
     }
 
-    void Update()
+    private void SetupFlatCallout()
     {
-    }*/
+        // loading the model depending on the chosen shape
+        model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/CalloutShapeFlat", typeof(GameObject)));
+
+        // make instantiated model be child of the node object
+        model.transform.SetParent(gameObject.transform, false);
+
+        // stretching the model depending on the chosen size 
+        model.transform.localScale *= size;
+
+        // changing the color depending on the chosen color 
+        var modelRenderer = model.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+
+        // changing transparency if it is preview
+        if (transform.parent != null && transform.parent.GetComponent<MindMap>().isPreview)
+        {
+            modelRenderer.material.color = new Color(modelRenderer.material.color.r, modelRenderer.material.color.g, modelRenderer.material.color.b, 0.5f);
+        }
+
+        // set the text on the shape
+        model.transform.GetChild(0).GetChild(1).GetComponent<TextMesh>().text = text;
+
+        // moving the model upward to place it on the surface
+        model.transform.position += new Vector3(0, model.transform.GetChild(0).localScale.y / 2, 0);
+    }
 }

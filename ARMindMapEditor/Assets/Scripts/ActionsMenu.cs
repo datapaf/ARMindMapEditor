@@ -108,35 +108,24 @@ public class ActionsMenu : MonoBehaviour
 
     public void CreateFT()
     {
-        GameObject mindMap = GameObject.Find("MindMap(Clone)").gameObject;
-        GameObject CT = mindMap.transform.Find("CT").gameObject;
-        //GameObject CTModel = CT.transform.Find("Sphere(Clone)").gameObject;
+        GameObject mindMap = GameObject.FindObjectOfType<MindMap>().gameObject;
+        GameObject CT = GameObject.FindGameObjectWithTag("CentralTopic").gameObject;
         GameObject CTModel = CT.transform.GetChild(1).gameObject;
         GameObject FT = Instantiate((GameObject)Resources.Load("Prefabs/Items/FT", typeof(GameObject)));
         FT.transform.SetParent(mindMap.transform, false);
         FT.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
         FT.transform.rotation = CT.transform.rotation;
-
-        FT.GetComponent<Node>().level = 2;
-        FT.GetComponent<Node>().maxSize = CT.GetComponent<Node>().size;
-        FT.GetComponent<Node>().minSize = CT.GetComponent<Node>().size * 0.5f;
-        FT.GetComponent<Node>().size = CT.GetComponent<Node>().size;
     }
 
     public void CreateCallout()
     {
-        GameObject mindMap = GameObject.Find("MindMap(Clone)").gameObject;
-        GameObject CT = mindMap.transform.Find("CT").gameObject;
-        GameObject CTModel = CT.transform.Find("Sphere(Clone)").gameObject;
+        GameObject mindMap = GameObject.FindObjectOfType<MindMap>().gameObject;
+        GameObject CT = GameObject.FindGameObjectWithTag("CentralTopic").gameObject;
+        GameObject CTModel = CT.transform.GetChild(1).gameObject;
         GameObject Callout = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
         Callout.transform.SetParent(mindMap.transform, false);
         Callout.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
         Callout.transform.rotation = CT.transform.rotation;
-
-        Callout.GetComponent<Callout>().level = 2;
-        Callout.GetComponent<Callout>().maxSize = CT.GetComponent<Node>().size;
-        Callout.GetComponent<Callout>().minSize = CT.GetComponent<Node>().size * 0.5f;
-        Callout.GetComponent<Callout>().size = CT.GetComponent<Node>().size;
     }
 
     public void StartChangingText()

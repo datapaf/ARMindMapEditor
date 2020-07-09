@@ -10455,6 +10455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeSelectionMaterial: {fileID: 2100000, guid: ee46fc98c7a745b4f91bf53ddb4ffea1,
     type: 2}
+  nodeSelectionMaterialFlat: {fileID: 2100000, guid: e6952a79656791141b659ef03c852d44,
+    type: 2}
   relationshipSelectionColor: {r: 0.9888284, g: 1, b: 0, a: 1}
   actionsMenu: {fileID: 1253732206}
 --- !u!1 &1648199153

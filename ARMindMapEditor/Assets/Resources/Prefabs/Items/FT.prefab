@@ -49,9 +49,10 @@ MonoBehaviour:
   minSize: 0.5
   maxSize: 1
   color: {r: 0, g: 1, b: 0, a: 1}
+  mode: 0
   volumeShape: 1
   flatShape: 1
-  level: 0
+  level: 2
   relationship: {fileID: 0}
   nextNodes: []
 --- !u!1001 &4973127137924255740

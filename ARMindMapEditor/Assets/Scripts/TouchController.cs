@@ -73,8 +73,8 @@ public class TouchController : MonoBehaviour
             else if (IsTapped() && IsPointedToNode())
             {
                 startTime = Time.time;
-                notMoved = true;
                 creationManager.PrepareForCreation();
+                notMoved = true;
                 isSaved = false; 
                 state = 1;
             }

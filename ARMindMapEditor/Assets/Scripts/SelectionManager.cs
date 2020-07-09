@@ -7,6 +7,9 @@ public class SelectionManager : MonoBehaviour
     public Material nodeSelectionMaterial;
     private Material materialBeforeNodeSelection;
 
+    public Material nodeSelectionMaterialFlat;
+    private Material materialBeforeNodeSelectionFlat;
+
     public Color relationshipSelectionColor;
     private Color colorBeforeRelationshipSelection;
 
@@ -112,11 +115,28 @@ public class SelectionManager : MonoBehaviour
     {
         if (isNode(go))
         {
-            Renderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetComponent<Renderer>();
-            materialBeforeNodeSelection = nodeRenderer.material;
-            Color nodeColor = nodeRenderer.material.color;
-            nodeRenderer.material = nodeSelectionMaterial;
-            nodeRenderer.material.color = nodeColor;
+            if (go.tag == "Callout")
+            {
+                if (go.GetComponent<Callout>().mode == DemonstrationMode.Volume)
+                {
+                    HighlightVolume(go);
+                }
+                else if (go.GetComponent<Callout>().mode == DemonstrationMode.Flat)
+                {
+                    HighlightFlat(go);
+                }
+            }
+            else 
+            {
+                if (go.GetComponent<Node>().mode == DemonstrationMode.Volume)
+                {
+                    HighlightVolume(go);
+                }
+                else if (go.GetComponent<Node>().mode == DemonstrationMode.Flat)
+                {
+                    HighlightFlat(go);
+                }
+            }
         }
         else if (isRelationship(go))
         {
@@ -127,18 +147,68 @@ public class SelectionManager : MonoBehaviour
 
     }
 
+    void HighlightVolume(GameObject go)
+    {
+        Renderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetComponent<Renderer>();
+        materialBeforeNodeSelection = nodeRenderer.material;
+        Color nodeColor = nodeRenderer.material.color;
+        nodeRenderer.material = nodeSelectionMaterial;
+        nodeRenderer.material.color = nodeColor;
+    }
+
+    void HighlightFlat(GameObject go)
+    {
+        SpriteRenderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        materialBeforeNodeSelectionFlat = nodeRenderer.material;
+        Color nodeColor = nodeRenderer.material.color;
+        nodeRenderer.material = nodeSelectionMaterialFlat;
+        nodeRenderer.material.color = nodeColor;
+    }
+
     void DeHighlight(GameObject go)
     {
         if (isNode(go))
         {
-            Renderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetComponent<Renderer>();
-            nodeRenderer.material = materialBeforeNodeSelection;
+            if (go.tag == "Callout")
+            {
+                if (go.GetComponent<Callout>().mode == DemonstrationMode.Volume)
+                {
+                    DeHighlightVolume(go);
+                }
+                else if (go.GetComponent<Callout>().mode == DemonstrationMode.Flat)
+                {
+                    DeHighlightFlat(go);
+                }
+            }
+            else
+            {
+                if (go.GetComponent<Node>().mode == DemonstrationMode.Volume)
+                {
+                    DeHighlightVolume(go);
+                }
+                else if (go.GetComponent<Node>().mode == DemonstrationMode.Flat)
+                {
+                    DeHighlightFlat(go);
+                }
+            }
         }
         else if (isRelationship(go))
         {
             LineRenderer relationshipRenderer = go.GetComponent<LineRenderer>();
             relationshipRenderer.SetColors(colorBeforeRelationshipSelection, colorBeforeRelationshipSelection);
         }
+    }
+
+    void DeHighlightVolume(GameObject go)
+    {
+        Renderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetComponent<Renderer>();
+        nodeRenderer.material = materialBeforeNodeSelection;
+    }
+
+    void DeHighlightFlat(GameObject go)
+    {
+        SpriteRenderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+        nodeRenderer.material = materialBeforeNodeSelectionFlat;
     }
 
     void GetHitObject()

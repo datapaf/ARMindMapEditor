@@ -48,7 +48,7 @@ MonoBehaviour:
   size: 1
   minSize: 0.5
   maxSize: 1
-  level: 0
+  level: 2
 --- !u!1001 &3088536361903887543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ PrefabInstance:
     - target: {fileID: 67967232238951962, guid: 0dee7be8f68bf6f4d9d182ba844f6ac2,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 67967232238951963, guid: 0dee7be8f68bf6f4d9d182ba844f6ac2,
         type: 3}
