@@ -5027,7 +5027,7 @@ GameObject:
   - component: {fileID: 849369657}
   - component: {fileID: 849369656}
   m_Layer: 5
-  m_Name: ChangeShapeButton (1)
+  m_Name: ChangeShapeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5094,7 +5094,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 849369657}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1253732208}
+        m_MethodName: ChangeNodeShape
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &849369657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6020,7 +6031,7 @@ GameObject:
   - component: {fileID: 1022193353}
   - component: {fileID: 1022193352}
   m_Layer: 5
-  m_Name: ChangeShapeButton (1)
+  m_Name: ChangeShapeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6087,7 +6098,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022193353}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1253732208}
+        m_MethodName: ChangeNodeShape
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1022193353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7681,8 +7703,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253732206}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -241.99997, y: -429.62497, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2084879071}
@@ -8056,7 +8078,7 @@ GameObject:
   - component: {fileID: 1302711412}
   - component: {fileID: 1302711411}
   m_Layer: 5
-  m_Name: ChangeShapeButton (1)
+  m_Name: ChangeShapeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8123,7 +8145,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1302711412}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1253732208}
+        m_MethodName: ChangeNodeShape
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1302711412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13105,7 +13138,7 @@ GameObject:
   - component: {fileID: 2109369941}
   - component: {fileID: 2109369940}
   m_Layer: 5
-  m_Name: ChangeShapeButton (1)
+  m_Name: ChangeShapeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13172,7 +13205,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2109369941}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1253732208}
+        m_MethodName: ChangeNodeShape
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2109369941
 MonoBehaviour:
   m_ObjectHideFlags: 0

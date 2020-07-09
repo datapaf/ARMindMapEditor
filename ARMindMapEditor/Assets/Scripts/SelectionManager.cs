@@ -111,7 +111,7 @@ public class SelectionManager : MonoBehaviour
         return false;
     }
 
-    void Highlight(GameObject go)
+    public void Highlight(GameObject go)
     {
         if (isNode(go))
         {
@@ -126,7 +126,7 @@ public class SelectionManager : MonoBehaviour
                     HighlightFlat(go);
                 }
             }
-            else 
+            else
             {
                 if (go.GetComponent<Node>().mode == DemonstrationMode.Volume)
                 {
@@ -149,7 +149,7 @@ public class SelectionManager : MonoBehaviour
 
     void HighlightVolume(GameObject go)
     {
-        Renderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetComponent<Renderer>();
+        MeshRenderer nodeRenderer = go.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>();
         materialBeforeNodeSelection = nodeRenderer.material;
         Color nodeColor = nodeRenderer.material.color;
         nodeRenderer.material = nodeSelectionMaterial;
@@ -165,7 +165,7 @@ public class SelectionManager : MonoBehaviour
         nodeRenderer.material.color = nodeColor;
     }
 
-    void DeHighlight(GameObject go)
+    public void DeHighlight(GameObject go)
     {
         if (isNode(go))
         {

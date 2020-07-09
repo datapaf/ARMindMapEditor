@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Node : MonoBehaviour
 {
-    // the lists of possible shapes
-    public enum VolumeShape { Sphere, Parallelopipedon, Capsule };
-    public enum FlatShape { Circle, Rectangle, Ellipse };
-
     public string text;
     
     public float size;
@@ -21,8 +17,7 @@ public class Node : MonoBehaviour
 
     public DemonstrationMode mode;
 
-    public VolumeShape volumeShape;
-    public FlatShape flatShape;
+    public Shape.ShapeType shapeType;
 
     public int level;
 
@@ -94,15 +89,15 @@ public class Node : MonoBehaviour
     private void SetupVolumeNode()
     {
         // loading the model depending on the chosen shape
-        switch (volumeShape)
+        switch (Shape.GetVolumeShape(shapeType))
         {
-            case VolumeShape.Sphere:
+            case Shape.VolumeShape.Sphere:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Sphere", typeof(GameObject)));
                 break;
-            case VolumeShape.Parallelopipedon:
+            case Shape.VolumeShape.Parallelopipedon:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Parallelopipedon", typeof(GameObject)));
                 break;
-            case VolumeShape.Capsule:
+            case Shape.VolumeShape.Capsule:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Capsule", typeof(GameObject)));
                 break;
         }
@@ -130,15 +125,15 @@ public class Node : MonoBehaviour
     private void SetupFlatNode()
     {
         // loading the model depending on the chosen shape
-        switch (flatShape)
+        switch (Shape.GetFlatShape(shapeType))
         {
-            case FlatShape.Circle:
+            case Shape.FlatShape.Circle:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Circle", typeof(GameObject)));
                 break;
-            case FlatShape.Rectangle:
+            case Shape.FlatShape.Rectangle:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Rectangle", typeof(GameObject)));
                 break;
-            case FlatShape.Ellipse:
+            case Shape.FlatShape.Ellipse:
                 model = Instantiate((GameObject)Resources.Load("Prefabs/Shapes/Ellipse", typeof(GameObject)));
                 break;
         }
@@ -189,5 +184,48 @@ public class Node : MonoBehaviour
 
         // delete node
         Destroy(node);
+    }
+
+    public void ChangeShape()
+    {
+        if (mode == DemonstrationMode.Volume)
+        {
+            // disable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(false);
+
+            Destroy(model);
+
+            SwitchShapeType();
+
+            SetupVolumeNode();
+
+            // enable caption as we will show text on the shape
+            transform.GetChild(0).gameObject.SetActive(true);
+
+        }
+        else if (mode == DemonstrationMode.Flat)
+        {
+            Destroy(model);
+
+            SwitchShapeType();
+
+            SetupFlatNode();
+        }
+    }
+
+    private void SwitchShapeType()
+    {
+        switch (shapeType)
+        {
+            case Shape.ShapeType.Type1:
+                shapeType = Shape.ShapeType.Type2;
+                break;
+            case Shape.ShapeType.Type2:
+                shapeType = Shape.ShapeType.Type3;
+                break;
+            case Shape.ShapeType.Type3:
+                shapeType = Shape.ShapeType.Type1;
+                break;
+        }
     }
 }

@@ -78,4 +78,5 @@ public class EditorMenu : MonoBehaviour
 
         GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
     }
+
 }

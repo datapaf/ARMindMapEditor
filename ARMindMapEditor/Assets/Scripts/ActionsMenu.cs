@@ -172,4 +172,11 @@ public class ActionsMenu : MonoBehaviour
         GameObject.FindObjectOfType<SelectionManager>().Deselect();
         GameObject.FindObjectOfType<TouchController>().state = 6;
     }
+
+    public void ChangeNodeShape()
+    {
+        node.GetComponent<Node>().ChangeShape();
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        GameObject.FindObjectOfType<TouchController>().state = 0;
+    }
 }

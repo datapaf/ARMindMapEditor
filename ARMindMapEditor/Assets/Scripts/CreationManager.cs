@@ -47,17 +47,10 @@ public class CreationManager : MonoBehaviour
                 newNode = Instantiate((GameObject)Resources.Load("Prefabs/Items/MT", typeof(GameObject)));
                 newNode.transform.SetParent(hitNode.transform.parent.transform, false);
                 newNode.transform.position = hitObject.transform.position;
-                newNode.transform.rotation = hitObject.transform.rotation;
+                //newNode.transform.rotation = hitObject.transform.rotation;
 
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
-
-                // set up the size of the new node
-                //newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
-                /*if (newNode.GetComponent<Node>().level < 4)
-                {
-                    newNode.GetComponent<Node>().size *= sizeMultiplierOfNewNode;
-                }*/
 
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
@@ -79,13 +72,6 @@ public class CreationManager : MonoBehaviour
 
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
-
-                // set up the size of the new node
-                //newNode.GetComponent<Node>().size = hitNode.GetComponent<Node>().size;
-                /*if (newNode.GetComponent<Node>().level < 4)
-                {
-                    newNode.GetComponent<Node>().size *= sizeMultiplierOfNewNode;
-                }*/
 
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));

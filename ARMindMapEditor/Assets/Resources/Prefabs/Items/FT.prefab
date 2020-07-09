@@ -50,8 +50,7 @@ MonoBehaviour:
   maxSize: 1
   color: {r: 0, g: 1, b: 0, a: 1}
   mode: 0
-  volumeShape: 1
-  flatShape: 1
+  shapeType: 1
   level: 2
   relationship: {fileID: 0}
   nextNodes: []
