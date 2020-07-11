@@ -169,6 +169,7 @@ public class Node : MonoBehaviour
             // remember the name of the map
             string mapName = GameObject.FindObjectOfType<MindMap>().mapName;
             EasySave.Save("ResetMapName", mapName);
+            EasySave.Save("isMapReset", true);
             SceneManager.LoadScene(0);
         }
 

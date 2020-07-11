@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaveSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,9 +27,15 @@ public class TouchController : MonoBehaviour
 
     void Start()
     {
-        creationManager = GameObject.Find("Managers").transform.Find("Creation Manager").GetComponent<CreationManager>();
-        selectionManager = GameObject.Find("Managers").transform.Find("Selection Manager").GetComponent<SelectionManager>();
-        movingManager = GameObject.Find("Managers").transform.Find("Moving Manager").GetComponent<MovingManager>();
+        creationManager = GameObject.FindObjectOfType<CreationManager>();
+        selectionManager = GameObject.FindObjectOfType<SelectionManager>();
+        movingManager = GameObject.FindObjectOfType<MovingManager>();
+
+        if (EasySave.Load<bool>("isMapReset"))
+        {
+            isSaved = false;
+            EasySave.Delete<bool>("isMapReset");
+        }
     }
 
     void Update()
@@ -65,12 +72,12 @@ public class TouchController : MonoBehaviour
                 isSaved = true;
             }
 
-            if (IsTapped() && IsPointedToRelationship())
+            if (IsTappedNotOnUI() && IsPointedToRelationship())
             {
                 isSaved = false;
                 state = 10;
             }
-            else if (IsTapped() && IsPointedToNode())
+            else if (IsTappedNotOnUI() && IsPointedToNode())
             {
                 startTime = Time.time;
                 creationManager.PrepareForCreation();

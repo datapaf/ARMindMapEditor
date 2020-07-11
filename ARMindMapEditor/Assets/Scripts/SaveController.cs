@@ -6,14 +6,6 @@ using SaveSystem;
 
 public class SaveController : MonoBehaviour
 {
-    void Start()
-    {
-    }
-
-    void Update()
-    {
-    }
-
     public void SaveMap(GameObject map)
     {   
         // create the entry containing the data about the whole map
@@ -38,13 +30,9 @@ public class SaveController : MonoBehaviour
             ItemData data = new ItemData();
 
             // collecting data
-            data.xPosition = item.transform.position.x;
-            data.yPosition = item.transform.position.y;
-            data.zPosition = item.transform.position.z;
-
-            data.xRotation = item.transform.rotation.x;
-            data.yRotation = item.transform.rotation.y;
-            data.zRotation = item.transform.rotation.z;
+            data.xPosition = map.transform.InverseTransformPoint(item.transform.position).x;
+            data.yPosition = map.transform.InverseTransformPoint(item.transform.position).y;
+            data.zPosition = map.transform.InverseTransformPoint(item.transform.position).z;
 
 
             switch (item.tag)
@@ -77,9 +65,6 @@ public class SaveController : MonoBehaviour
                 data.minSize = item.GetComponent<Node>().minSize;
                 data.maxSize = item.GetComponent<Node>().maxSize;
                 data.nodeColor = item.GetComponent<Node>().nodeColor;
-                /*data.r = item.GetComponent<Node>().color.r;
-                data.g = item.GetComponent<Node>().color.g;
-                data.b = item.GetComponent<Node>().color.b;*/
                 data.shapeType = item.GetComponent<Node>().shapeType;
                 data.level = item.GetComponent<Node>().level;
 
@@ -160,9 +145,6 @@ public class SaveController : MonoBehaviour
         newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
 
-        // here we will store the position of the central topic to set up the position of the other nodes
-        Vector3 CTposition = Vector3.zero;
-
         // going through each item that is in the map we set up their parameters
         foreach (ItemData data in mindMapData.items)
         {
@@ -171,27 +153,24 @@ public class SaveController : MonoBehaviour
             if (data.itemType == ItemType.CT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/CT", typeof(GameObject)));
+                item.transform.SetParent(newMindMap.transform);
 
                 Node itemNodeComponent = item.GetComponent<Node>();
-
-                CTposition = new Vector3(data.xPosition, data.yPosition, data.zPosition);
 
                 itemNodeComponent.text = data.text;
                 itemNodeComponent.size = data.size;
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.nodeColor = data.nodeColor;
-                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
-
-                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.MT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/MT", typeof(GameObject)));
-                
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                item.transform.SetParent(newMindMap.transform);
+
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -200,17 +179,15 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.nodeColor = data.nodeColor;
-                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
-
-                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Subtopic)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Subtopic", typeof(GameObject)));
+                item.transform.SetParent(newMindMap.transform);
 
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -219,17 +196,15 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.nodeColor = data.nodeColor;
-                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
-
-                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.FT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/FT", typeof(GameObject)));
+                item.transform.SetParent(newMindMap.transform);
 
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -238,17 +213,15 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.minSize = data.minSize;
                 itemNodeComponent.maxSize = data.maxSize;
                 itemNodeComponent.nodeColor = data.nodeColor;
-                //itemNodeComponent.color = new Vector4(data.r, data.g, data.b, 1);
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
-
-                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Callout)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
+                item.transform.SetParent(newMindMap.transform);
 
-                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition) - CTposition;
+                item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
 
                 Callout itemCalloutComponent = item.GetComponent<Callout>();
 
@@ -257,20 +230,17 @@ public class SaveController : MonoBehaviour
                 itemCalloutComponent.minSize = data.minSize;
                 itemCalloutComponent.maxSize = data.maxSize;
                 itemCalloutComponent.level = data.level;
-
-                item.transform.SetParent(newMindMap.transform);
             }
             else if (data.itemType == ItemType.Relationship)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
+                item.transform.SetParent(newMindMap.transform);
 
                 Relationship itemRelationshipComponent = item.GetComponent<Relationship>();
 
                 // here we obtain the objects that the relationship connects
                 itemRelationshipComponent.object1 = newMindMap.transform.GetChild(data.object1NumberAsChild).gameObject;
                 itemRelationshipComponent.object2 = newMindMap.transform.GetChild(data.object2NumberAsChild).gameObject;
-
-                item.transform.SetParent(newMindMap.transform);
             }
         }
 

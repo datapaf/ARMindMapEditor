@@ -12,19 +12,12 @@ public class ItemData
     public float yPosition;
     public float zPosition;
 
-    public float xRotation;
-    public float yRotation;
-    public float zRotation;
-
     public ItemType itemType;
     public string text;
     public float size;
     public float minSize;
     public float maxSize;
     public NodeColor.ColorType nodeColor;
-    /*public float r;
-    public float g;
-    public float b;*/
     public Shape.ShapeType shapeType;
     public int level;
 
@@ -33,7 +26,4 @@ public class ItemData
 
     public int object1NumberAsChild;
     public int object2NumberAsChild;
-
-    public ItemData()
-    { }
 }

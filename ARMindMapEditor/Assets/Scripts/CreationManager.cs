@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class CreationManager : MonoBehaviour
 {
-    public float sizeMultiplierOfNewNode = 0.75f;
-
     // tag of the object that the user tapped on
     private string tappedNodeTag = null;
     // the gameobject of the new created nodes 
@@ -47,7 +45,6 @@ public class CreationManager : MonoBehaviour
                 newNode = Instantiate((GameObject)Resources.Load("Prefabs/Items/MT", typeof(GameObject)));
                 newNode.transform.SetParent(hitNode.transform.parent.transform, false);
                 newNode.transform.position = hitObject.transform.position;
-                //newNode.transform.rotation = hitObject.transform.rotation;
 
                 // set up the level of the node
                 newNode.GetComponent<Node>().level = hitNode.GetComponent<Node>().level + 1;
@@ -55,7 +52,7 @@ public class CreationManager : MonoBehaviour
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
 
-                newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
+                newRelationship.transform.SetParent(hitNode.transform.parent.transform);
 
                 // getting the distance from the camera to the node 
                 ZCoord = Camera.main.WorldToScreenPoint(newNode.transform.position).z;
@@ -76,7 +73,7 @@ public class CreationManager : MonoBehaviour
                 // instantiation of the new relationship connecting the nre node and the predecessor
                 newRelationship = Instantiate((GameObject)Resources.Load("Prefabs/Items/Relationship", typeof(GameObject)));
 
-                newRelationship.transform.SetParent(hitNode.transform.parent.transform, true);
+                newRelationship.transform.SetParent(hitNode.transform.parent.transform);
 
                 // getting the distance from the camera to the node 
                 ZCoord = Camera.main.WorldToScreenPoint(newNode.transform.position).z;

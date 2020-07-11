@@ -45,7 +45,7 @@ public class EditorMenu : MonoBehaviour
             }
         }
 
-        if (doExist == false)
+        if (doExist == false && mapNameInputField.GetComponent<InputField>().text != "")
         {
             mindMap.GetComponent<MindMap>().prevName = mindMap.GetComponent<MindMap>().mapName;
             mindMap.GetComponent<MindMap>().mapName = mapNameInputField.GetComponent<InputField>().text;

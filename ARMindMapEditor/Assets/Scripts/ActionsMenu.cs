@@ -15,6 +15,7 @@ public class ActionsMenu : MonoBehaviour
     public GameObject RelationshipActionsMenu;
     public GameObject FTActionsMenu;
     public GameObject CalloutActionsMenu;
+    public GameObject FindNodeInputField;
 
 
     private GameObject menu;
@@ -22,6 +23,8 @@ public class ActionsMenu : MonoBehaviour
     private GameObject inputField;
 
     private bool isSliderValueSetup;
+
+    private string prevName;
 
     void Start()
     {   
@@ -81,11 +84,21 @@ public class ActionsMenu : MonoBehaviour
         }
         
         menu.SetActive(true);
+
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("SearchButton").GetComponent<Button>().interactable = false;
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("ModeButton").GetComponent<Button>().interactable = false;
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("RedoButton").GetComponent<Button>().interactable = false;
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("UndoButton").GetComponent<Button>().interactable = false;
     }
 
     public void HideMenu()
     {
         menu.SetActive(false);
+
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("SearchButton").GetComponent<Button>().interactable = true;
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("ModeButton").GetComponent<Button>().interactable = true;
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("RedoButton").GetComponent<Button>().interactable = true;
+        GameObject.FindObjectOfType<EditorMenu>().transform.Find("UndoButton").GetComponent<Button>().interactable = true;
     }
 
     GameObject GetMenu()
@@ -113,7 +126,7 @@ public class ActionsMenu : MonoBehaviour
         GameObject CTModel = CT.transform.GetChild(1).gameObject;
         GameObject FT = Instantiate((GameObject)Resources.Load("Prefabs/Items/FT", typeof(GameObject)));
         FT.transform.SetParent(mindMap.transform, false);
-        FT.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
+        FT.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.1f, 0);
         FT.transform.rotation = CT.transform.rotation;
     }
 
@@ -124,19 +137,25 @@ public class ActionsMenu : MonoBehaviour
         GameObject CTModel = CT.transform.GetChild(1).gameObject;
         GameObject Callout = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
         Callout.transform.SetParent(mindMap.transform, false);
-        Callout.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.2f, 0);
+        Callout.transform.position = CT.transform.position + new Vector3(0, 2*CTModel.transform.GetChild(0).localScale.y, 0);
         Callout.transform.rotation = CT.transform.rotation;
     }
 
     public void StartChangingText()
     {
+        if (node.GetComponent<Node>())
+        {
+            prevName = node.GetComponent<Node>().text;
+        }
+        else 
+        {
+            prevName = node.GetComponent<Callout>().text;
+        }
         inputField = menu.transform.Find("InputField").gameObject;
+        inputField.GetComponent<InputField>().text = "";
         inputField.SetActive(true);
         inputField.GetComponent<InputField>().Select();
         inputField.GetComponent<InputField>().ActivateInputField();
-
-        menu.transform.Find("Buttons").gameObject.SetActive(false);
-        menu.transform.Find("Slider").gameObject.SetActive(false);
     }
 
     public void ChangeText()
@@ -153,14 +172,26 @@ public class ActionsMenu : MonoBehaviour
 
     public void EndChangingText()
     {
+        if (node.GetComponent<Node>())
+        {
+            if (CheckForEmptyText(node.GetComponent<Node>().text))
+            {
+                node.GetComponent<Node>().text = prevName;
+            }
+        }
+        else
+        {
+            if (CheckForEmptyText(node.GetComponent<Callout>().text))
+            {
+                node.GetComponent<Callout>().text = prevName;
+            }
+        }
+        
         inputField.SetActive(false);
-        menu.transform.Find("Buttons").gameObject.SetActive(true);
-        menu.transform.Find("Slider").gameObject.SetActive(true);
     }
 
     public void DeleteSelectedNode()
     {
-        // deselect
         Node.DeleteNode(node);
         GameObject.FindObjectOfType<SelectionManager>().Deselect();
         GameObject.FindObjectOfType<TouchController>().state = 6;
@@ -185,5 +216,16 @@ public class ActionsMenu : MonoBehaviour
         GameObject.FindObjectOfType<SelectionManager>().Deselect();
         GameObject.FindObjectOfType<TouchController>().state = 0;
         node.GetComponent<Node>().ChangeColor();
+    }
+
+    bool CheckForEmptyText(string text)
+    {
+        foreach (char s in text)
+        {
+            if (s != ' ')
+                return false;
+        }
+
+        return true;
     }
 }

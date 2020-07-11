@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MovingManager : MonoBehaviour
 {
-    public float movingMultiplier = 25f;
+    public float movingMultiplier;
 
     private GameObject hitObject = null;
     private GameObject hitNode = null;
@@ -56,11 +56,19 @@ public class MovingManager : MonoBehaviour
 
                 if (inputAxis == "x")
                 {
-                    hitNode.transform.position += hitNode.transform.right * Input.GetTouch(0).deltaPosition.x / Screen.currentResolution.width; // * movingMultiplier;
+                    hitNode.transform.position += 
+                        GetSign(hitNode.transform.right, Camera.main.transform.right) *
+                        movingMultiplier *
+                        hitNode.transform.right * 
+                        Input.GetTouch(0).deltaPosition.x * Input.GetTouch(0).deltaTime / Screen.currentResolution.width;
                 }
                 else if (inputAxis == "y")
                 {
-                    hitNode.transform.position += hitNode.transform.right * Input.GetTouch(0).deltaPosition.y / Screen.currentResolution.height;// * movingMultiplier;
+                    hitNode.transform.position +=
+                        GetSign(hitNode.transform.right, Camera.main.transform.up) *
+                        movingMultiplier *
+                        hitNode.transform.right * 
+                        Input.GetTouch(0).deltaPosition.y * Input.GetTouch(0).deltaTime / Screen.currentResolution.height;
                 }
 
                 break;
@@ -69,11 +77,19 @@ public class MovingManager : MonoBehaviour
 
                 if (inputAxis == "x")
                 {
-                    hitNode.transform.position += hitNode.transform.up * Input.GetTouch(0).deltaPosition.x / Screen.currentResolution.width;// * movingMultiplier;
+                    hitNode.transform.position +=
+                        GetSign(hitNode.transform.up, Camera.main.transform.right) *
+                        movingMultiplier *
+                        hitNode.transform.up * 
+                        Input.GetTouch(0).deltaPosition.x * Input.GetTouch(0).deltaTime / Screen.currentResolution.width;
                 }
                 else if (inputAxis == "y")
                 {
-                    hitNode.transform.position += hitNode.transform.up * Input.GetTouch(0).deltaPosition.y / Screen.currentResolution.height;// * movingMultiplier;
+                    hitNode.transform.position +=
+                        GetSign(hitNode.transform.up, Camera.main.transform.up) *
+                        movingMultiplier *
+                        hitNode.transform.up * 
+                        Input.GetTouch(0).deltaPosition.y * Input.GetTouch(0).deltaTime / Screen.currentResolution.height;
                 }
 
                 break;
@@ -82,11 +98,19 @@ public class MovingManager : MonoBehaviour
 
                 if (inputAxis == "x")
                 {
-                    hitNode.transform.position += hitNode.transform.forward * Input.GetTouch(0).deltaPosition.x / Screen.currentResolution.width;// * movingMultiplier;
+                    hitNode.transform.position +=
+                        GetSign(hitNode.transform.forward, Camera.main.transform.right) *
+                        movingMultiplier *
+                        hitNode.transform.forward * 
+                        Input.GetTouch(0).deltaPosition.x * Input.GetTouch(0).deltaTime / Screen.currentResolution.width;
                 }
                 else if (inputAxis == "y")
                 {
-                    hitNode.transform.position += hitNode.transform.forward * Input.GetTouch(0).deltaPosition.y / Screen.currentResolution.height;// * movingMultiplier;
+                    hitNode.transform.position +=
+                        GetSign(hitNode.transform.forward, Camera.main.transform.up) *
+                        movingMultiplier *
+                        hitNode.transform.forward * 
+                        Input.GetTouch(0).deltaPosition.y * Input.GetTouch(0).deltaTime / Screen.currentResolution.height;
                 }
 
                 break;
@@ -97,6 +121,16 @@ public class MovingManager : MonoBehaviour
     {
         Destroy(transformAxes);
         hitObject = null;
+    }
+
+    int GetSign(Vector3 a, Vector3 b)
+    {
+        if (Vector3.Angle(a, b) < 90)
+            return 1;
+        else if (Vector3.Angle(a, b) > 90)
+            return -1;
+        else
+            return 0;
     }
 
     string GetInputAxis(Vector2 p, Vector2 o)

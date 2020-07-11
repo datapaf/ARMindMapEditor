@@ -10,8 +10,4 @@ public class MindMapData
     public float sizeMultiplier;
     public bool isPreview;
     public DemonstrationMode mode;
-
-    public MindMapData()
-    {
-    }
 }

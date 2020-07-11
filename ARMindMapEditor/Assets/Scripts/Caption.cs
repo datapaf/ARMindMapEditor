@@ -35,15 +35,36 @@ public class Caption : MonoBehaviour
             isSetupDone = true;
         }
 
+        string newText;
         if (transform.parent.GetComponent<Node>())
+        {
+            newText = transform.parent.GetComponent<Node>().text;
+        }
+        else
+        {
+            newText = transform.parent.GetComponent<Callout>().text;
+        }
+
+        for (int i = 0; i < newText.Length; i++)
+        {
+            if (i != 0 && i % 18 == 0)
+            {
+                newText = newText.Substring(0, i+1) + "\n" + newText.Substring(i+1);
+                i++;
+            }
+        }
+
+        text.GetComponent<TextMesh>().text = newText;
+
+        /*if (transform.parent.GetComponent<Node>())
         {
             text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Node>().text;
         }
-        else 
+        else
         {
             text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Callout>().text;
-        }
-        
+        }*/
+
 
         background.transform.localScale = sizeMultiplier * new Vector3(1,.5f,1) *
             Mathf.Min(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z);

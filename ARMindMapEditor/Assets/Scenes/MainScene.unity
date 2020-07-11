@@ -209,7 +209,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 1
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 69
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa5d1b761ee87047b14797342e31354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingMultiplier: 25
+  movingMultiplier: 17
 --- !u!1 &195037754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,7 +1704,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 1
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 69
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -2510,7 +2510,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 1
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 69
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -3921,8 +3921,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670759704}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 263.0889, y: 623.41797, z: -1005.3739}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4406,7 +4406,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 1
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 69
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -6750,7 +6750,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 1
   m_CharacterValidation: 0
-  m_CharacterLimit: 0
+  m_CharacterLimit: 69
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
@@ -7740,6 +7740,7 @@ MonoBehaviour:
   RelationshipActionsMenu: {fileID: 1048745800}
   FTActionsMenu: {fileID: 2140507873}
   CalloutActionsMenu: {fileID: 1587861451}
+  FindNodeInputField: {fileID: 0}
 --- !u!1 &1255125603
 GameObject:
   m_ObjectHideFlags: 0
@@ -8281,7 +8282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48df15567881d2c4197529df40edfb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeMultiplierOfNewNode: 0.75
 --- !u!4 &1354840453
 Transform:
   m_ObjectHideFlags: 0
