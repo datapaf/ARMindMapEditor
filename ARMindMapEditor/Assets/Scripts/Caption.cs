@@ -24,13 +24,15 @@ public class Caption : MonoBehaviour
         {
             background = transform.GetChild(0).gameObject;
             text = background.transform.GetChild(0).gameObject;
-            model = transform.parent.GetChild(1).gameObject;
+            model = transform.parent.GetChild(1).GetChild(0).gameObject;
 
             transform.position = model.transform.position;
             transform.LookAt(Camera.main.transform.position, -Vector3.up);
 
-            var radius = Mathf.Max(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z) / 4;
-            background.transform.position = transform.position - background.transform.forward * radius;
+            var modelScale = model.transform.lossyScale;
+            var radius = Mathf.Sqrt(Mathf.Pow(modelScale.x/2,2) + Mathf.Pow(modelScale.y/2, 2) + Mathf.Pow(modelScale.z/2, 2));
+
+            background.transform.position = model.transform.position - background.transform.forward * radius;
 
             isSetupDone = true;
         }
@@ -56,18 +58,12 @@ public class Caption : MonoBehaviour
 
         text.GetComponent<TextMesh>().text = newText;
 
-        /*if (transform.parent.GetComponent<Node>())
-        {
-            text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Node>().text;
-        }
-        else
-        {
-            text.GetComponent<TextMesh>().text = transform.parent.GetComponent<Callout>().text;
-        }*/
 
-
-        background.transform.localScale = sizeMultiplier * new Vector3(1,.5f,1) *
-            Mathf.Min(model.transform.localScale.x, model.transform.localScale.y, model.transform.localScale.z);
+        var scale = model.transform.parent.localScale;
+        background.transform.localScale = 
+            sizeMultiplier * 
+            Mathf.Min(scale.x, scale.y, scale.z) *
+            new Vector3(1, 0.5f, 1);    
 
         transform.LookAt(Camera.main.transform.position, -Vector3.up);
     }

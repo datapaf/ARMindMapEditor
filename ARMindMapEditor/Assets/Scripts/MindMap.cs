@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaveSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +14,8 @@ public class MindMap : MonoBehaviour
     public string mapName;
 
     // sizeMultiplier is the scalar that determines the size of all the objects
-    public float sizeMultiplier = 1;
-    private float prevSizeMultiplier = 1;
+    public float sizeMultiplier;
+    private float prevSizeMultiplier;
 
     // the variable determines the preview mode
     public bool isPreview = false;
@@ -22,11 +23,12 @@ public class MindMap : MonoBehaviour
     public DemonstrationMode mode;
 
     public bool isNew;
-    private bool isInputFiledSetup = false;
+    private bool isInputFieldSetup = false;
 
     void Start()
     {
-        sizeMultiplier = GameObject.FindObjectOfType<PresetSettings>().presetMapSize;
+        if (!isPreview)
+            sizeMultiplier = GameObject.FindObjectOfType<PresetSettings>().presetMapSize;
     }
 
     void Update()
@@ -45,10 +47,10 @@ public class MindMap : MonoBehaviour
                 prevName = mapName;
                 isNew = false;
             }
-            if (isInputFiledSetup == false)
+            if (isInputFieldSetup == false)
             {
                 GameObject.Find("Editor Menu").transform.Find("InputField").GetComponent<InputField>().text = mapName;
-                isInputFiledSetup = true;
+                isInputFieldSetup = true;
             }
         }
 

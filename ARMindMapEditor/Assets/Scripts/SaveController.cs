@@ -13,7 +13,7 @@ public class SaveController : MonoBehaviour
 
         // initialize the fields of the new entry
         mindMapData.mapName = map.GetComponent<MindMap>().mapName;
-        //mindMapData.sizeMultiplier = map.GetComponent<MindMap>().sizeMultiplier;
+        mindMapData.sizeMultiplier = map.GetComponent<MindMap>().sizeMultiplier;
         mindMapData.isPreview = map.GetComponent<MindMap>().isPreview;
         mindMapData.mode = map.GetComponent<MindMap>().mode;
 
@@ -141,9 +141,16 @@ public class SaveController : MonoBehaviour
 
         // retrieve the info about the map from the entry 
         newMindMap.GetComponent<MindMap>().mapName = mindMapData.mapName;
-        //newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
+        newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
         newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
+
+        /*if (GameObject.FindObjectOfType<PresetSettings>().presetMapSize == -1)
+        {
+            GameObject.FindObjectOfType<PresetSettings>().presetMapSize = mindMapData.sizeMultiplier;
+        }*/
+
+        var CTPosition = Vector3.zero;
 
         // going through each item that is in the map we set up their parameters
         foreach (ItemData data in mindMapData.items)
@@ -154,6 +161,8 @@ public class SaveController : MonoBehaviour
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/CT", typeof(GameObject)));
                 item.transform.SetParent(newMindMap.transform);
+
+                CTPosition = item.transform.position;
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 

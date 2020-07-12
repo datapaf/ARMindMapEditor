@@ -40,6 +40,7 @@ public class Spawner : MonoBehaviour
             
             if (isPreview)
             {
+                GameObject.FindObjectOfType<PresetSettings>().presetMapSize = newMindMap.GetComponent<MindMap>().sizeMultiplier;
                 newMindMap.GetComponent<MindMap>().isPreview = true;
                 newMindMap.transform.SetParent(transform.parent, false);
             }

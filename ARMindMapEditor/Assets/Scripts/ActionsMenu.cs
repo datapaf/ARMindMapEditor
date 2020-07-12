@@ -26,14 +26,6 @@ public class ActionsMenu : MonoBehaviour
 
     private string prevName;
 
-    void Start()
-    {   
-    }
-
-    void Update()
-    {
-    }
-
     public void ChangeSize()
     {
         if (isSliderValueSetup == false)
@@ -123,10 +115,12 @@ public class ActionsMenu : MonoBehaviour
     {
         GameObject mindMap = GameObject.FindObjectOfType<MindMap>().gameObject;
         GameObject CT = GameObject.FindGameObjectWithTag("CentralTopic").gameObject;
-        GameObject CTModel = CT.transform.GetChild(1).gameObject;
+        GameObject CTModel = CT.transform.GetChild(1).GetChild(0).gameObject;
         GameObject FT = Instantiate((GameObject)Resources.Load("Prefabs/Items/FT", typeof(GameObject)));
         FT.transform.SetParent(mindMap.transform, false);
-        FT.transform.position = CT.transform.position + new Vector3(0, CTModel.transform.GetChild(0).localScale.y + 0.1f, 0);
+        FT.transform.position = CT.transform.position +
+                                CT.transform.forward * CTModel.transform.lossyScale.z/2 +
+                                CT.transform.up * CTModel.transform.lossyScale.y;
         FT.transform.rotation = CT.transform.rotation;
     }
 
@@ -134,10 +128,12 @@ public class ActionsMenu : MonoBehaviour
     {
         GameObject mindMap = GameObject.FindObjectOfType<MindMap>().gameObject;
         GameObject CT = GameObject.FindGameObjectWithTag("CentralTopic").gameObject;
-        GameObject CTModel = CT.transform.GetChild(1).gameObject;
+        GameObject CTModel = CT.transform.GetChild(1).GetChild(0).gameObject;
         GameObject Callout = Instantiate((GameObject)Resources.Load("Prefabs/Items/Callout", typeof(GameObject)));
         Callout.transform.SetParent(mindMap.transform, false);
-        Callout.transform.position = CT.transform.position + new Vector3(0, 2*CTModel.transform.GetChild(0).localScale.y, 0);
+        Callout.transform.position = CT.transform.position + 
+                                     -CT.transform.forward * CTModel.transform.lossyScale.z/2 +
+                                     CT.transform.up * CTModel.transform.lossyScale.y;
         Callout.transform.rotation = CT.transform.rotation;
     }
 
