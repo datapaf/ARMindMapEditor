@@ -30,9 +30,13 @@ public class SaveController : MonoBehaviour
             ItemData data = new ItemData();
 
             // collecting data
-            data.xPosition = map.transform.InverseTransformPoint(item.transform.position).x;
+            /*data.xPosition = map.transform.InverseTransformPoint(item.transform.position).x;
             data.yPosition = map.transform.InverseTransformPoint(item.transform.position).y;
-            data.zPosition = map.transform.InverseTransformPoint(item.transform.position).z;
+            data.zPosition = map.transform.InverseTransformPoint(item.transform.position).z;*/
+
+            data.xPosition = item.transform.localPosition.x;
+            data.yPosition = item.transform.localPosition.y;
+            data.zPosition = item.transform.localPosition.z;
 
 
             switch (item.tag)
@@ -145,13 +149,6 @@ public class SaveController : MonoBehaviour
         newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
 
-        /*if (GameObject.FindObjectOfType<PresetSettings>().presetMapSize == -1)
-        {
-            GameObject.FindObjectOfType<PresetSettings>().presetMapSize = mindMapData.sizeMultiplier;
-        }*/
-
-        var CTPosition = Vector3.zero;
-
         // going through each item that is in the map we set up their parameters
         foreach (ItemData data in mindMapData.items)
         {
@@ -160,9 +157,8 @@ public class SaveController : MonoBehaviour
             if (data.itemType == ItemType.CT)
             {
                 item = Instantiate((GameObject)Resources.Load("Prefabs/Items/CT", typeof(GameObject)));
-                item.transform.SetParent(newMindMap.transform);
 
-                CTPosition = item.transform.position;
+                item.transform.SetParent(newMindMap.transform);
 
                 Node itemNodeComponent = item.GetComponent<Node>();
 
@@ -180,7 +176,7 @@ public class SaveController : MonoBehaviour
                 item.transform.SetParent(newMindMap.transform);
 
                 item.transform.position = new Vector3(data.xPosition, data.yPosition, data.zPosition);
-
+                
                 Node itemNodeComponent = item.GetComponent<Node>();
 
                 itemNodeComponent.text = data.text;

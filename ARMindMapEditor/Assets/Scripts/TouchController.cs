@@ -72,12 +72,12 @@ public class TouchController : MonoBehaviour
                 isSaved = true;
             }
 
-            if (IsTappedNotOnUI() && IsPointedToRelationship())
+            /*if (IsTappedNotOnUI() && IsPointedToRelationship())
             {
                 isSaved = false;
                 state = 10;
             }
-            else if (IsTappedNotOnUI() && IsPointedToNode())
+            else*/ if (IsTappedNotOnUI() && IsPointedToNode())
             {
                 startTime = Time.time;
                 creationManager.PrepareForCreation();
