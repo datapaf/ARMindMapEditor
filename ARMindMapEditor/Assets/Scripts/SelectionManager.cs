@@ -16,7 +16,7 @@ public class SelectionManager : MonoBehaviour
     public GameObject actionsMenu;
 
     private GameObject hitObject = null;
-    private GameObject hitNode = null;
+    public GameObject hitNode = null;
     private GameObject hitRelationship = null;
 
     private GameObject selectedObject;

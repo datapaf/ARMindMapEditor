@@ -13,6 +13,8 @@ public class Callout : MonoBehaviour
 
     public int level;
 
+    public bool isHidden;
+
     // the model of the node
     private GameObject model;
 
@@ -47,6 +49,31 @@ public class Callout : MonoBehaviour
 
     void Update()
     {
+        if (!transform.parent.GetComponent<MindMap>().isPreview)
+        {
+            Renderer modelRenderer;
+            if (mode == DemonstrationMode.Volume)
+            {
+                modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
+            }
+            else
+            {
+                modelRenderer = model.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+            }
+
+            if (isHidden)
+            {
+                modelRenderer.material.color = new Color(modelRenderer.material.color.r,
+                    modelRenderer.material.color.g, modelRenderer.material.color.b, 0.1f);
+            }
+            else
+            {
+
+                modelRenderer.material.color = new Color(modelRenderer.material.color.r,
+                    modelRenderer.material.color.g, modelRenderer.material.color.b, 1);
+            }
+        }
+
         if (transform.parent.GetComponent<MindMap>().mode == DemonstrationMode.Volume && mode == DemonstrationMode.Flat)
         {
             Destroy(model);

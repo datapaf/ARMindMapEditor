@@ -71,6 +71,7 @@ public class SaveController : MonoBehaviour
                 data.nodeColor = item.GetComponent<Node>().nodeColor;
                 data.shapeType = item.GetComponent<Node>().shapeType;
                 data.level = item.GetComponent<Node>().level;
+                data.isHidden = item.GetComponent<Node>().isHidden;
 
                 if (item.GetComponent<Node>().relationship != null)
                 {
@@ -93,6 +94,7 @@ public class SaveController : MonoBehaviour
                 data.minSize = item.GetComponent<Callout>().minSize;
                 data.maxSize = item.GetComponent<Callout>().maxSize;
                 data.level = item.GetComponent<Callout>().level;
+                data.isHidden = item.GetComponent<Callout>().isHidden;
             }
             else if (item.GetComponent<Relationship>())
             {
@@ -169,6 +171,7 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.nodeColor = data.nodeColor;
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
+                itemNodeComponent.isHidden = data.isHidden;
             }
             else if (data.itemType == ItemType.MT)
             {
@@ -186,6 +189,7 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.nodeColor = data.nodeColor;
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
+                itemNodeComponent.isHidden = data.isHidden;
             }
             else if (data.itemType == ItemType.Subtopic)
             {
@@ -203,6 +207,7 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.nodeColor = data.nodeColor;
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
+                itemNodeComponent.isHidden = data.isHidden;
             }
             else if (data.itemType == ItemType.FT)
             {
@@ -220,6 +225,7 @@ public class SaveController : MonoBehaviour
                 itemNodeComponent.nodeColor = data.nodeColor;
                 itemNodeComponent.shapeType = data.shapeType;
                 itemNodeComponent.level = data.level;
+                itemNodeComponent.isHidden = data.isHidden;
             }
             else if (data.itemType == ItemType.Callout)
             {
@@ -235,6 +241,7 @@ public class SaveController : MonoBehaviour
                 itemCalloutComponent.minSize = data.minSize;
                 itemCalloutComponent.maxSize = data.maxSize;
                 itemCalloutComponent.level = data.level;
+                itemCalloutComponent.isHidden = data.isHidden;
             }
             else if (data.itemType == ItemType.Relationship)
             {

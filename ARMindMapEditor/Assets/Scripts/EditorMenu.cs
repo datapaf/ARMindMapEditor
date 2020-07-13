@@ -10,6 +10,7 @@ public class EditorMenu : MonoBehaviour
     public GameObject mapNameInputField;
     public Sprite FlatModeButtonSprite;
     public Sprite VolumeModeButtonSprite;
+    public GameObject FindNodeInputField;
 
     void Update()
     {
@@ -79,4 +80,32 @@ public class EditorMenu : MonoBehaviour
         GameObject.Find("SaveController").GetComponent<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
     }
 
+    public void ActivateFindNodeInputField()
+    {
+        FindNodeInputField.SetActive(true);
+        FindNodeInputField.GetComponent<InputField>().Select();
+        FindNodeInputField.GetComponent<InputField>().ActivateInputField();
+    }
+
+    public void FindNode()
+    {
+
+        if (FindNodeInputField.GetComponent<InputField>().text.Length != 0)
+        {
+            var nodes = GameObject.FindObjectsOfType<Node>();
+            foreach (Node node in nodes)
+            {
+                if (node.text.Contains(FindNodeInputField.GetComponent<InputField>().text))
+                {
+                    GameObject.FindObjectOfType<SelectionManager>().hitNode = node.gameObject;
+                    GameObject.FindObjectOfType<SelectionManager>().Select();
+                    GameObject.FindObjectOfType<TouchController>().state = 3;
+                    break;
+                }
+            }
+        }
+
+
+        FindNodeInputField.SetActive(false);
+    }
 }

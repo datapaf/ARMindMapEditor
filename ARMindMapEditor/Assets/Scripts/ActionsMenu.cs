@@ -15,8 +15,6 @@ public class ActionsMenu : MonoBehaviour
     public GameObject RelationshipActionsMenu;
     public GameObject FTActionsMenu;
     public GameObject CalloutActionsMenu;
-    public GameObject FindNodeInputField;
-
 
     private GameObject menu;
     private Slider slider;
@@ -74,8 +72,37 @@ public class ActionsMenu : MonoBehaviour
             }
             
         }
+
         
+
         menu.SetActive(true);
+
+        if (node.GetComponent<Node>())
+        {
+            if (node.GetComponent<Node>().isHidden)
+            {
+                menu.transform.Find("ShowButton").gameObject.SetActive(true);
+                menu.transform.Find("HideButton").gameObject.SetActive(false);
+            }
+            else 
+            {
+                menu.transform.Find("ShowButton").gameObject.SetActive(false);
+                menu.transform.Find("HideButton").gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (node.GetComponent<Callout>().isHidden)
+            {
+                menu.transform.Find("ShowButton").gameObject.SetActive(true);
+                menu.transform.Find("HideButton").gameObject.SetActive(false);
+            }
+            else
+            {
+                menu.transform.Find("ShowButton").gameObject.SetActive(false);
+                menu.transform.Find("HideButton").gameObject.SetActive(true);
+            }
+        }
 
         GameObject.FindObjectOfType<EditorMenu>().transform.Find("SearchButton").GetComponent<Button>().interactable = false;
         GameObject.FindObjectOfType<EditorMenu>().transform.Find("ModeButton").GetComponent<Button>().interactable = false;
@@ -212,6 +239,43 @@ public class ActionsMenu : MonoBehaviour
         GameObject.FindObjectOfType<SelectionManager>().Deselect();
         GameObject.FindObjectOfType<TouchController>().state = 0;
         node.GetComponent<Node>().ChangeColor();
+    }
+
+    public void Hide()
+    {
+        menu.transform.Find("HideButton").gameObject.SetActive(false);
+        menu.transform.Find("ShowButton").gameObject.SetActive(true);
+
+        if (node.GetComponent<Node>())
+        {
+            node.GetComponent<Node>().isHidden = true;
+        }
+        else
+        {
+            node.GetComponent<Callout>().isHidden = true;
+        }
+
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        GameObject.FindObjectOfType<TouchController>().state = 6;
+    }
+
+    public void Show()
+    {
+        menu.transform.Find("HideButton").gameObject.SetActive(true);
+        menu.transform.Find("ShowButton").gameObject.SetActive(false);
+
+        if (node.GetComponent<Node>())
+        {
+            node.GetComponent<Node>().isHidden = false;
+        }
+        else
+        {
+            node.GetComponent<Callout>().isHidden = false;
+        }
+
+
+        GameObject.FindObjectOfType<SelectionManager>().Deselect();
+        GameObject.FindObjectOfType<TouchController>().state = 6;
     }
 
     bool CheckForEmptyText(string text)

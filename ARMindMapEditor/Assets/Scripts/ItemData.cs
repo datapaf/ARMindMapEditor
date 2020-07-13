@@ -20,6 +20,7 @@ public class ItemData
     public NodeColor.ColorType nodeColor;
     public Shape.ShapeType shapeType;
     public int level;
+    public bool isHidden;
 
     public int relationshipIndex;
     public List<int> nextNodesIndices;

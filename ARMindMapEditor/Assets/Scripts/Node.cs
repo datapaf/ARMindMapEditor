@@ -22,6 +22,8 @@ public class Node : MonoBehaviour
 
     public int level;
 
+    public bool isHidden;
+
     public GameObject relationship = null;
     public List<GameObject> nextNodes = new List<GameObject>();
 
@@ -56,6 +58,30 @@ public class Node : MonoBehaviour
 
     void Update()
     {
+        if (!transform.parent.GetComponent<MindMap>().isPreview)
+        {
+            Renderer modelRenderer;
+            if (mode == DemonstrationMode.Volume)
+            {
+                modelRenderer = model.transform.GetChild(0).GetComponent<Renderer>();
+            }
+            else 
+            {
+                modelRenderer = model.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>();
+            }
+
+            if (isHidden)
+            {
+                modelRenderer.material.color = new Color32(NodeColor.GetColor(nodeColor).r,
+                    NodeColor.GetColor(nodeColor).g, NodeColor.GetColor(nodeColor).b, 30);
+            }
+            else
+            {
+                modelRenderer.material.color = new Color32(NodeColor.GetColor(nodeColor).r,
+                    NodeColor.GetColor(nodeColor).g, NodeColor.GetColor(nodeColor).b, 255);
+            }
+        }
+
         if (transform.parent.GetComponent<MindMap>().mode == DemonstrationMode.Volume && mode == DemonstrationMode.Flat)
         {
             Destroy(model);
