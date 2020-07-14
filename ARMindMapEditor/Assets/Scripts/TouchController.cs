@@ -11,6 +11,7 @@ public class TouchController : MonoBehaviour
     public float holdingTime = 0.5f;
 
     private bool isSaved = true;
+    private bool isStateSaved = false;
 
     public GameObject editorMenu;
     public GameObject presetMenuUI;
@@ -66,11 +67,20 @@ public class TouchController : MonoBehaviour
         }
         else if (state == 0)
         {
-            if (GameObject.FindObjectOfType<MindMap>() && isSaved == false)
+            if (GameObject.FindObjectOfType<MindMap>())
             {
-                GameObject.FindObjectOfType<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
-                isSaved = true;
+                if (isSaved == false)
+                {
+                    GameObject.FindObjectOfType<SaveController>().SaveMap(GameObject.FindObjectOfType<MindMap>().gameObject);
+                    isSaved = true;
+                }
+                if (isStateSaved == false && GameObject.FindObjectOfType<MindMap>().mapName != "")
+                {
+                    GameObject.FindObjectOfType<History>().Push(EditorMenu.CreateState());
+                    isStateSaved = true;
+                }
             }
+
 
             /*if (IsTappedNotOnUI() && IsPointedToRelationship())
             {
@@ -82,6 +92,7 @@ public class TouchController : MonoBehaviour
                 startTime = Time.time;
                 creationManager.PrepareForCreation();
                 notMoved = true;
+                isStateSaved = false;
                 isSaved = false; 
                 state = 1;
             }
@@ -116,7 +127,11 @@ public class TouchController : MonoBehaviour
 
             if (IsReleased())
             {
-                creationManager.EndCreation();
+                if (!creationManager.EndCreation())
+                {
+                    isStateSaved = true;
+                }
+
                 state = 5;
             }
         }

@@ -88,8 +88,10 @@ public class CreationManager : MonoBehaviour
         }
     }
 
-    public void EndCreation()
+    public bool EndCreation()
     {
+        bool isSuccessfull = true;
+
         // if a new node has been created and creation is going
         if (newNode != null && isCreationGoing)
         {
@@ -106,6 +108,7 @@ public class CreationManager : MonoBehaviour
                     // if the colliders intersect then destroy newNode
                     Destroy(newNode);
                     Destroy(newRelationship);
+                    isSuccessfull = false;
                 }
                 else
                 {
@@ -126,6 +129,8 @@ public class CreationManager : MonoBehaviour
             // after lifting up the finger the creation is done
             isCreationGoing = false;
         }
+
+        return isSuccessfull;
     }
 
 

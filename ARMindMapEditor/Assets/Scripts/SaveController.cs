@@ -14,7 +14,7 @@ public class SaveController : MonoBehaviour
         // initialize the fields of the new entry
         mindMapData.mapName = map.GetComponent<MindMap>().mapName;
         mindMapData.sizeMultiplier = map.GetComponent<MindMap>().sizeMultiplier;
-        mindMapData.isPreview = map.GetComponent<MindMap>().isPreview;
+        //mindMapData.isPreview = map.GetComponent<MindMap>().isPreview;
         mindMapData.mode = map.GetComponent<MindMap>().mode;
 
         // creathe the list of the items that the map contains
@@ -30,10 +30,6 @@ public class SaveController : MonoBehaviour
             ItemData data = new ItemData();
 
             // collecting data
-            /*data.xPosition = map.transform.InverseTransformPoint(item.transform.position).x;
-            data.yPosition = map.transform.InverseTransformPoint(item.transform.position).y;
-            data.zPosition = map.transform.InverseTransformPoint(item.transform.position).z;*/
-
             data.xPosition = item.transform.localPosition.x;
             data.yPosition = item.transform.localPosition.y;
             data.zPosition = item.transform.localPosition.z;
@@ -148,7 +144,7 @@ public class SaveController : MonoBehaviour
         // retrieve the info about the map from the entry 
         newMindMap.GetComponent<MindMap>().mapName = mindMapData.mapName;
         newMindMap.GetComponent<MindMap>().sizeMultiplier = mindMapData.sizeMultiplier;
-        newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
+        //newMindMap.GetComponent<MindMap>().isPreview = mindMapData.isPreview;
         newMindMap.GetComponent<MindMap>().mode = mindMapData.mode;
 
         // going through each item that is in the map we set up their parameters

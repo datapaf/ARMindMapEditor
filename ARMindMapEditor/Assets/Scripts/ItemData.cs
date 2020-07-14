@@ -12,6 +12,10 @@ public class ItemData
     public float yPosition;
     public float zPosition;
 
+    /*public float xRotation;
+    public float yRotation;
+    public float zRotation;*/
+
     public ItemType itemType;
     public string text;
     public float size;
